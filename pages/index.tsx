@@ -3,10 +3,13 @@ import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { Auth, ThemeSupa } from '@supabase/auth-ui-react'
 import TodoList from '@/components/TodoList'
 import Stepper from '@/components/Stepper'
+import AppBar from '@/components/AppBar'
+
 
 export default function Home() {
   const session = useSession()
   const supabase = useSupabaseClient()
+
 
   async function signInWithAzure() {
     const { data, error } = await supabase.auth.signInWithOAuth({
@@ -27,42 +30,36 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="w-full h-full bg-gray-200">
-        {!session ? (
-          <div className="min-w-full min-h-screen flex items-center justify-center">
-            <div className="w-full h-full flex justify-center items-center p-4">
-              <div className="w-full h-full sm:h-auto sm:w-2/5 max-w-sm p-5 bg-white shadow flex flex-col text-base">
-                <button onClick={signInWithAzure} type="button" className="focus:outline-none text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xl px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-green-800 left-10">
-                  Login with Microsoft Azure
-                </button>
-                <span className="font-sans text-lg text-center pt-10 pb-2 mb-1 border-t mx-4 align-center">
-                  or Login with email password
-                </span>
-                <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} theme="dark" />
-              </div>
+      <AppBar session={session} onClick={signInWithAzure} />
+      {!session ? (
+        <div className="flex flex-col items-center justify-center">
+          <div className="w-full h-full flex justify-center items-center p-4 mt-20">
+            <div className="w-full h-full sm:h-auto sm:w-2/5 max-w-sm p-5 bg-white shadow flex flex-col text-base">
+              <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} theme="dark" />
             </div>
-
           </div>
-        ) : (
-          <div
-            className="w-full h-full flex flex-col justify-center items-center p-4"
-            style={{ minWidth: 250, maxWidth: 600, margin: 'auto' }}
+        </div>
+      ) : (
+        <div
+          className="w-full h-full flex flex-col justify-center items-center p-4"
+          style={{ minWidth: 250, maxWidth: 600, margin: 'auto' }}
+        >
+          {/* <AppBar session={session} /> */}
+          <TodoList session={session} />
+          <br />
+          <Stepper />
+          <button
+            className="btn-black w-full mt-12"
+            onClick={async () => {
+              const { error } = await supabase.auth.signOut()
+              if (error) console.log('Error logging out:', error.message)
+            }}
           >
-            <TodoList session={session} />
-            <br />
-            <Stepper />
-            <button
-              className="btn-black w-full mt-12"
-              onClick={async () => {
-                const { error } = await supabase.auth.signOut()
-                if (error) console.log('Error logging out:', error.message)
-              }}
-            >
-              Logout
-            </button>
-          </div>
-        )}
-      </div>
+            Logout
+          </button>
+        </div>
+      )}
     </>
+
   )
 }
