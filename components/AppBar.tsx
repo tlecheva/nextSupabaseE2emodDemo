@@ -19,8 +19,6 @@ function AppBar({ session, signInWithAzure, signOut }: {
     const handleCloseToast = () => {
         setToastVisible(false);
     };
-    console.log("🚀 ~ session:", session)
-
     return !session ? (
         <>
             <Header appName="ATLANTIC - E2EMod">
@@ -58,7 +56,6 @@ function AppBar({ session, signInWithAzure, signOut }: {
             </IconButton>
             <IconButton disabled variant="ghost" />
             <Tabs />
-
             <div className="flex flex-col justify-end ">
                 <div className="mt-3">{session.user.email}</div>
                 <div className="flex justify-center align-middle">

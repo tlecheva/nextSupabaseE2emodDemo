@@ -3,6 +3,7 @@ import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { Auth, ThemeSupa } from '@supabase/auth-ui-react'
 import TodoList from '@/components/TodoList'
 import AppBar from '@/components/AppBar'
+import Posts from './posts'
 
 export default function Home() {
   const session = useSession()
@@ -51,7 +52,8 @@ export default function Home() {
           className="w-full h-full flex flex-col justify-center items-center p-4"
           style={{ minWidth: 250, maxWidth: 600, margin: 'auto' }}
         >
-          <TodoList session={session} />
+          <Posts />
+          {/* <TodoList session={session} /> */}
         </div>
       )}
     </>
