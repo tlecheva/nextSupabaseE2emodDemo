@@ -20,6 +20,11 @@ export default function Home() {
       console.log("🚀 ~ signInWithAzure ~ data, error:", data, error);
   }
 
+  async function signOut() {
+    const { error } = await supabase.auth.signOut()
+    if (error) console.log('Error logging out:', error.message)
+  }
+
   return (
     <>
       <Head>
@@ -28,10 +33,10 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <AppBar session={session} onClick={signInWithAzure} />
+      <AppBar session={session} signInWithAzure={signInWithAzure} signOut={signOut} />
       {!session ? (
         <div
-          className="flex flex-col items-center justify-center bg-cover bg-center h-screen"
+          className="flex flex-col items-center justify-center bg-cover bg-center h-full"
           style={{
             backgroundImage: "url('/airbus_atlantic_1920x640px.png')"
           }}>
@@ -46,18 +51,7 @@ export default function Home() {
           className="w-full h-full flex flex-col justify-center items-center p-4"
           style={{ minWidth: 250, maxWidth: 600, margin: 'auto' }}
         >
-          {/* <AppBar session={session} /> */}
           <TodoList session={session} />
-          <br />
-          <button
-            className="btn-black w-full mt-12"
-            onClick={async () => {
-              const { error } = await supabase.auth.signOut()
-              if (error) console.log('Error logging out:', error.message)
-            }}
-          >
-            Logout
-          </button>
         </div>
       )}
     </>
