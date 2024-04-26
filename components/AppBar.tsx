@@ -17,13 +17,10 @@ function AppBar({ session, onClick }: {
     const handleCloseToast = () => {
         setToastVisible(false);
     };
+    console.log("🚀 ~ session:", session)
+
     return !session ? (
-        <div
-            style={{
-                // padding: "0 0 256px",
-                //backgroundImage: "./assets/header-cover.jpg",
-            }}
-        >
+        <>
             <Header appName="ATLANTIC - E2EMod">
                 <Tabs value={1} size="large">
                     <Tab onClick={() => setToastVisible(!isToastVisible)} value={0}>Help</Tab>
@@ -39,7 +36,7 @@ function AppBar({ session, onClick }: {
                     </Toast>
                 </div>
             )}
-        </div >
+        </>
     ) : (
         <Header appName="ATLANTIC - E2EMod">
             <Tabs value={0}>
@@ -56,7 +53,7 @@ function AppBar({ session, onClick }: {
             <IconButton variant="ghost" aria-label="Help">
                 <HelpIcon />
             </IconButton>
-            <Button variant="primary">Contact</Button>
+            <Button variant="primary">Logout</Button>
         </Header>
     )
 }
