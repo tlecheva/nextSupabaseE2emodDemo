@@ -1,5 +1,5 @@
 // 'use client'
-import { getObject } from '@syncfusion/ej2-grids';
+import { getObject, FilterSettingsModel } from '@syncfusion/ej2-grids';
 import {
     Aggregate,
     AggregatesDirective,
@@ -29,16 +29,7 @@ import {
 
 import * as React from 'react';
 import { summaryRowData } from './postsData';
-import { registerLicense } from "@syncfusion/ej2-base";
 
-if (!process.env.NEXT_PUBLIC_SYNCFUSION_LICENSE) {
-    throw new Error('NEXT_PUBLIC_SYNCFUSION_LICENSE should be set in .env file');
-}
-registerLicense(
-    // create a .env file and add the license key inside it 
-    // NEXT_PUBLIC_SYNCFUSION_LICENSE='your_license_key_here'
-    process.env.NEXT_PUBLIC_SYNCFUSION_LICENSE,
-);
 
 function RichPostContent({ Content }: { Content: any }) {
     let inlineMode = {
@@ -60,7 +51,7 @@ function RichPostContent({ Content }: { Content: any }) {
     };
     const editorRef = React.useRef(Content);
 
-    const updateHtmlContent = (newHtml) => {
+    const updateHtmlContent = (newHtml: string) => {
         editorRef.current.setHtml(newHtml);
     };
 
@@ -81,13 +72,14 @@ function RichPostContent({ Content }: { Content: any }) {
 
 
 function App() {
-    const footerSum = (props) => {
+    const footerSum = (props: string) => {
         return <span>Minimum: {getObject('Min', props)}</span>;
     };
-    const footerSum2 = (props) => {
+    const footerSum2 = (props: string) => {
         return <span>Maximum: {getObject('Max', props)}</span>;
     };
-    function rating(props) {
+    function rating(props: { Rating: number }) {
+        const value = props.Rating;
         return (
             <span>
                 <RatingComponent value={props.Rating} itemsCount={3} cssClass='custom-fill' />
@@ -95,7 +87,8 @@ function App() {
         );
     }
 
-    let treegrid;
+
+    let treegrid: TreeGridComponent | null = null;
     const dataBound = () => {
         if (treegrid) {
 
@@ -106,7 +99,7 @@ function App() {
         }
     };
 
-    const filterSettings = { type: 'Menu' };
+    const filterSettings: FilterSettingsModel = { type: 'Menu' };
 
     return (
         <div className="absolute top-20 ml-10 mr-10">

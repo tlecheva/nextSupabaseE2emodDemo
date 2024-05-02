@@ -1,5 +1,5 @@
 import React from "react"
-React.useLayoutEffect = React.useEffect
+// React.useLayoutEffect = React.useEffect
 import { Header, Tabs, Toast, Tab, IconButton, Button } from '@airbus/components-react'
 import {
     Help as HelpIcon,
@@ -10,18 +10,25 @@ import {
 } from "@airbus/icons/react";
 import { Session } from '@supabase/auth-helpers-react'
 import { useState } from 'react'
+import CustomerMenu from "./CustomerMenu";
 
 
 function AppBar({ session, signInWithAzure, signOut }: {
     session: Session | null, signInWithAzure: () => Promise<void>, signOut: () => Promise<void>
 }) {
     const [isToastVisible, setToastVisible] = useState(true);
+    const [isClientMenuVisible, setClientMenuVisible] = useState(false);
+    const handleClientMenu = () => {
+        setClientMenuVisible(!isClientMenuVisible);
+    };
     const handleCloseToast = () => {
         setToastVisible(false);
     };
+
+
     return !session ? (
         <>
-            <Header appName="ATLANTIC - E2EMod">
+            <Header appName="E2EMod">
                 <Tabs value={1} size="large">
                     <Tab onClick={() => setToastVisible(!isToastVisible)} value={0}>Help</Tab>
                     <Tab value={1}><Button onClick={signInWithAzure} variant="ghost">Login</Button></Tab>
@@ -37,7 +44,7 @@ function AppBar({ session, signInWithAzure, signOut }: {
             )}
         </>
     ) : (
-        <Header appName="ATLANTIC - E2EMod">
+        <Header appName="E2EMod">
             <Tabs value={0}>
                 <Tab value={0}>Tab Label</Tab>
                 <Tab value={1}>Tab Label</Tab>
@@ -56,12 +63,14 @@ function AppBar({ session, signInWithAzure, signOut }: {
             </IconButton>
             <IconButton disabled variant="ghost" />
             <Tabs />
-            <div className="flex flex-col justify-end ">
+            <div className="flex flex-col justify-end w-56">
                 <div className="mt-3">{session.user.email}</div>
-                <div className="flex justify-center align-middle">
-                    <Button variant="ghost" icon={<FlightTakeoff />} >
-                        Airbus / SA
-                    </Button>
+                <div className="flex justify-center gap-1">
+                    <CustomerMenu />
+                    <div className="ds-iconbutton-dark9 ">
+                        <FlightTakeoff />
+                    </div>
+
                 </div>
             </div>
             <Button variant="primary" icon={<PowerSettingsNew />} onClick={signOut}>Logout </Button>
