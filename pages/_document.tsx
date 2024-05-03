@@ -6,7 +6,7 @@ export default function Document() {
       <Head>
         <link href="https://cdn.syncfusion.com/ej2/25.1.35/bootstrap5.css" rel="stylesheet" />
       </Head>
-      <body>
+      <body suppressHydrationWarning>
         <Main />
         <NextScript />
       </body>

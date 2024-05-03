@@ -8,13 +8,10 @@ import {
     FlightTakeoff,
     PowerSettingsNew
 } from "@airbus/icons/react";
+import Link from "next/link";
 import { Session } from '@supabase/auth-helpers-react'
 import { useState } from 'react'
 import CustomerMenu from "./CustomerMenu";
-
-import dynamic from 'next/dynamic'
-
-
 function AppBar({ session, signInWithAzure, signOut }: {
     session: Session | null, signInWithAzure: () => Promise<void>, signOut: () => Promise<void>
 }) {
@@ -27,6 +24,12 @@ function AppBar({ session, signInWithAzure, signOut }: {
         setToastVisible(false);
     };
 
+    // avoid consolo.log className Server Client next.js warnings
+    const [isClient, setIsClient] = useState(false)
+    React.useEffect(() => {
+        setIsClient(true)
+    }, [])
+    if (!isClient) return (<>Loading...</>)
 
     return !session ? (
         <>
@@ -48,8 +51,8 @@ function AppBar({ session, signInWithAzure, signOut }: {
     ) : (
         <Header appName="E2EMod">
             <Tabs value={0}>
-                <Tab value={0}>Tab Label</Tab>
-                <Tab value={1}>Tab Label</Tab>
+                <Tab value={0}><Link href="/posts">Posts</Link></Tab>
+                <Tab value={1}><Link href="/todos">Todos</Link></Tab>
             </Tabs>
             <Tabs />
             <IconButton disabled variant="ghost" />

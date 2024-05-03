@@ -28,7 +28,11 @@ import {
 } from '@syncfusion/ej2-react-richtexteditor';
 
 import * as React from 'react';
-import { summaryRowData } from '../components/postsData';
+import { summaryRowData } from './PostsData';
+import { Session, useSupabaseClient } from '@supabase/auth-helpers-react'
+import { Database } from '@/lib/schema'
+
+type Changes = Database['public']['Tables']['airbus_sa_changes']['Row'];
 
 
 function RichPostContent({ Content }: { Content: any }) {
@@ -71,7 +75,7 @@ function RichPostContent({ Content }: { Content: any }) {
 }
 
 
-function App() {
+function Posts() {
     const footerSum = (props: string) => {
         return <span>Minimum: {getObject('Min', props)}</span>;
     };
@@ -100,6 +104,19 @@ function App() {
     };
 
     const filterSettings: FilterSettingsModel = { type: 'Menu' };
+
+    const supabase = useSupabaseClient<Database>()
+    React.useEffect(() => {
+        const loadChanges = async () => {
+            const { data: airbus_sa_changes, error } = await supabase
+                .from('airbus_sa_changes')
+                .select('*')
+            console.log("🚀 ~ loadChanges ~ data:", airbus_sa_changes)
+            if (error) console.log('error', error)
+            // else setTodos(todos)
+        }
+        loadChanges()
+    }, [supabase])
 
     return (
         <div className="absolute top-20 ml-10 mr-10">
@@ -165,4 +182,4 @@ function App() {
         </div >
     );
 }
-export default App;
+export default Posts;
