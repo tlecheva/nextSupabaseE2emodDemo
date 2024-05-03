@@ -1,6 +1,6 @@
 import React from "react"
 // React.useLayoutEffect = React.useEffect
-import { Header, Tabs, Toast, Tab, IconButton, Button } from '@airbus/components-react'
+import { Header, Tabs, Toast, Tab, IconButton, Button, Tooltip } from '@airbus/components-react'
 import {
     Help as HelpIcon,
     Notifications as NotificationsIcon,
@@ -11,6 +11,8 @@ import {
 import { Session } from '@supabase/auth-helpers-react'
 import { useState } from 'react'
 import CustomerMenu from "./CustomerMenu";
+
+import dynamic from 'next/dynamic'
 
 
 function AppBar({ session, signInWithAzure, signOut }: {
@@ -52,28 +54,33 @@ function AppBar({ session, signInWithAzure, signOut }: {
             <Tabs />
             <IconButton disabled variant="ghost" />
             <Tabs />
-            <IconButton variant="ghost" aria-label="Search">
+            <IconButton disabled variant="ghost" aria-label="Search">
                 <SearchIcon />
             </IconButton>
-            <IconButton variant="ghost" aria-label="Notifications">
+            <IconButton disabled variant="ghost" aria-label="Notifications">
                 <NotificationsIcon />
             </IconButton>
-            <IconButton variant="ghost" aria-label="Help">
+            <IconButton disabled variant="ghost" aria-label="Help">
                 <HelpIcon />
+            </IconButton>
+            <IconButton disabled variant="ghost" aria-label="Help">
+                <FlightTakeoff />
             </IconButton>
             <IconButton disabled variant="ghost" />
             <Tabs />
-            <div className="flex flex-col justify-end w-56">
-                <div className="mt-3">{session.user.email}</div>
-                <div className="flex justify-center gap-1">
+            <div className="flex flex-col w-56">
+                <div className="flex gap-1">
+                    <div className="mt-3">{session.user.email}</div>
+                    <Tooltip placement="bottom" label="Logout">
+                        <IconButton variant="ghost" aria-label="Help" onClick={signOut} >
+                            <PowerSettingsNew />
+                        </IconButton>
+                    </Tooltip>
+                </div>
+                <div className="flex justify-items-end">
                     <CustomerMenu />
-                    <div className="ds-iconbutton-dark9 ">
-                        <FlightTakeoff />
-                    </div>
-
                 </div>
             </div>
-            <Button variant="primary" icon={<PowerSettingsNew />} onClick={signOut}>Logout </Button>
         </Header >
     )
 }

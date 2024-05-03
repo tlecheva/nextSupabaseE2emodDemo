@@ -517,6 +517,8 @@ export let summaryData: Object[] = [
   },
 ];
 
+export default summaryData
+
 export let summaryRowData: Object[] = [
   {
     Title: 'Post 1: Check noze',

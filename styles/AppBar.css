@@ -1,0 +1,4 @@
+
+.e-menu-wrapper .e-ul, .e-menu-container .e-ul {
+    min-width: 80px; /* Replace 200px with the width you want */
+}

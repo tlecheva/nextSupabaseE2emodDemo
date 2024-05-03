@@ -1,6 +1,7 @@
 import { supabase } from '@/lib/initSupabase'
 import '@/styles/app.css'
-import './posts.css';
+import '@/styles/AppBar.css'
+import '@/styles/posts.css'
 
 import { SessionContextProvider } from '@supabase/auth-helpers-react'
 import type { AppProps } from 'next/app'
