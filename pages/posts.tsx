@@ -28,7 +28,7 @@ import {
 } from '@syncfusion/ej2-react-richtexteditor';
 
 import * as React from 'react';
-import { summaryRowData } from './postsData';
+import { summaryRowData } from '../components/postsData';
 
 
 function RichPostContent({ Content }: { Content: any }) {
