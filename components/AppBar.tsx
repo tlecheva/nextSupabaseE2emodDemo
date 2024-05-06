@@ -26,6 +26,7 @@ function AppBar({ session, signInWithAzure, signOut }: {
 
     // avoid consolo.log className Server Client next.js warnings
     const [isClient, setIsClient] = useState(false)
+    const [tab, setTab] = useState(0)
     React.useEffect(() => {
         setIsClient(true)
     }, [])
@@ -51,8 +52,9 @@ function AppBar({ session, signInWithAzure, signOut }: {
     ) : (
         <Header appName="E2EMod">
             <Tabs value={0}>
-                <Tab value={0}><Link href="/posts">Posts</Link></Tab>
-                <Tab value={1}><Link href="/todos">Todos</Link></Tab>
+                <Tab value={0} onClick={setTab}><Link href="/changes">Changes</Link></Tab>
+                <Tab value={1} onClick={setTab}><Link href="/posts">Posts</Link></Tab>
+                <Tab value={2} onClick={setTab}><Link href="/todos">Todos</Link></Tab>
             </Tabs>
             <Tabs />
             <IconButton disabled variant="ghost" />

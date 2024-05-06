@@ -50,7 +50,7 @@ function CustomerMenu() {
         },
     ]
 
-    let menuItems: MenuItemModel[] = [{
+    const menuItems: MenuItemModel[] = [{
         items: allCustomerProgramMenus,
         text: customerProgram
     }];

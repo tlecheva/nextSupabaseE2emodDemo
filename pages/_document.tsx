@@ -4,7 +4,7 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
-        <link href="https://cdn.syncfusion.com/ej2/25.1.35/bootstrap5.css" rel="stylesheet" />
+        <link href="https://cdn.syncfusion.com/ej2/25.1.35/tailwind.css" rel="stylesheet" />
       </Head>
       <body suppressHydrationWarning>
         <Main />

@@ -6,18 +6,6 @@ import { Auth, ThemeSupa } from '@supabase/auth-ui-react'
 // import TodoList from '@/components/TodoList'
 import AppBar from '@/components/AppBar'
 
-import { registerLicense } from "@syncfusion/ej2-base";
-
-if (!process.env.NEXT_PUBLIC_SYNCFUSION_LICENSE) {
-    throw new Error('NEXT_PUBLIC_SYNCFUSION_LICENSE should be set in .env file');
-}
-registerLicense(
-    // create a .env file and add the license key inside it 
-    // NEXT_PUBLIC_SYNCFUSION_LICENSE='your_license_key_here'
-    process.env.NEXT_PUBLIC_SYNCFUSION_LICENSE,
-);
-
-
 export default function Layout({ children }: PropsWithChildren) {
     const session = useSession()
     const supabase = useSupabaseClient()
@@ -63,7 +51,7 @@ export default function Layout({ children }: PropsWithChildren) {
                 </div>
             ) : (
                 <div
-                    className="w-full h-full flex flex-col justify-center items-center p-4"
+                    className="w-full h-full flex flex-col justify-center items-center p-4 overflow-x-auto"
                     style={{ minWidth: 250, maxWidth: 600, margin: 'auto' }}
                 >
                     {children}
