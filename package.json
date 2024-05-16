@@ -6,6 +6,9 @@
     "dev": "concurrently \"npm run dev:css\" \"next dev\"",
     "dev:css": "tailwindcss -w -i ./styles/tailwind.css -o styles/app.css",
     "build": "next build",
+    "export": "next export",
+    "docker-build": "docker build -t nextjs-supabase-e2emod .",
+    "docker-run": "docker run -p 3000:80 --name nextjs-supabase-e2emod nextjs-supabase-e2emod",
     "build:css": "tailwindcss -m -i ./styles/tailwind.css -o styles/app.css",
     "start": "next start",
     "lint": "next lint"
