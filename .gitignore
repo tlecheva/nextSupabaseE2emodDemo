@@ -34,3 +34,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+## ggshield to check for secrets that could be pushed to github/ gitlab
+.cache_ggshield
+
+.nmprc
+*.tar.gz

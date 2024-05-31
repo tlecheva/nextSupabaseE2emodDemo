@@ -556,10 +556,6 @@ video {
 
 /* @import "../components/stepper.css"; */
 
-.fixed {
-  position: fixed;
-}
-
 .absolute {
   position: absolute;
 }
