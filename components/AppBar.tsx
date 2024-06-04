@@ -1,5 +1,5 @@
 import React from "react"
-// React.useLayoutEffect = React.useEffect
+import { useRouter } from 'next/router';
 import { Header, Tabs, Toast, Tab, IconButton, Button, Tooltip } from '@airbus/components-react'
 import {
     Help as HelpIcon,
@@ -12,6 +12,32 @@ import Link from "next/link";
 import { Session } from '@supabase/auth-helpers-react'
 import { useState } from 'react'
 import CustomerMenu from "./CustomerMenu";
+
+
+export function useTab() {
+
+    const [tab, setTab] = useState(-1)
+
+    const handleTabChange = (tabNumber: number) => {
+        setTab(tabNumber);
+    };
+    const availableRoutes = [
+        { tab: 0, path: "/changes", label: "Changes" },
+        { tab: 1, path: "/changes_", label: "Changes_" },
+        { tab: 2, path: "/posts", label: "Posts" },
+        { tab: 3, path: "/todos", label: "Todos" },
+    ]
+    const router = useRouter()
+
+    React.useEffect(() => {
+        const path = router.pathname;
+        const tabNumber = availableRoutes.findIndex(route => route.path === path);
+        setTab(tabNumber !== -1 ? tabNumber : 0);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [router.pathname])
+    return { tab, availableRoutes };
+}
+
 function AppBar({ session, signInWithAzure, signOut }: {
     session: Session | null, signInWithAzure: () => Promise<void>, signOut: () => Promise<void>
 }) {
@@ -27,17 +53,8 @@ function AppBar({ session, signInWithAzure, signOut }: {
 
     // avoid consolo.log className Server Client next.js warnings
     const [isClient, setIsClient] = useState(false)
-    const [tab, setTab] = useState(0)
+    const { tab, availableRoutes } = useTab()
 
-    const handleTabChange = (tabNumber: number) => {
-        setTab(tabNumber);
-    };
-
-    // const handleTabChange = (event: React.ChangeEvent<{}>, tabId: number) => {
-    //     console.log("🚀 ~ handleTabChange ~ tabId, event", tabId, event, event.target)
-    //     debugger
-    //     setTab(tabId);
-    // };
 
 
     React.useEffect(() => {
@@ -65,10 +82,15 @@ function AppBar({ session, signInWithAzure, signOut }: {
     ) : (
         <Header appName="E2EMod">
             <Tabs value={tab}>
-                <Tab value={0} onClick={() => setTab(0)}><Link href="/changes">Changes</Link></Tab>
+                {availableRoutes.map((route) => (
+                    <Tab key={route.tab} value={route.tab}>
+                        <Link href={route.path}>{route.label}</Link>
+                    </Tab>))
+                }
+                {/* <Tab value={0} onClick={() => setTab(0)}><Link href="/changes">Changes</Link></Tab>
                 <Tab value={1} onClick={() => setTab(1)}><Link href="/changes_">Changes_</Link></Tab>
                 <Tab value={2} onClick={() => setTab(2)}><Link href="/posts">Posts</Link></Tab>
-                <Tab value={3} onClick={() => setTab(3)}><Link href="/todos">Todos</Link></Tab>
+                <Tab value={3} onClick={() => setTab(3)}><Link href="/todos">Todos</Link></Tab> */}
             </Tabs>
             <Tabs />
             <IconButton disabled variant="ghost" />

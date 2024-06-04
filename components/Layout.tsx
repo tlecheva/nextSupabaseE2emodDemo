@@ -3,8 +3,8 @@ import Head from 'next/head'
 
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { Auth, ThemeSupa } from '@supabase/auth-ui-react'
-// import TodoList from '@/components/TodoList'
 import AppBar from '@/components/AppBar'
+
 
 export default function Layout({ children }: PropsWithChildren) {
     const session = useSession()
@@ -29,7 +29,6 @@ export default function Layout({ children }: PropsWithChildren) {
 
     return (
         <>
-            {/* <span className="flex flex-col" > */}
             <div className="left-0 right-0 fixed">
                 <Head>
                     <title>E2EMod</title>

@@ -1,4 +1,4 @@
-import { ColumnChooser, ColumnDirective, ColumnsDirective, Grid, GridComponent, Inject, Page, PageSettingsModel, Resize, Toolbar } from '@syncfusion/ej2-react-grids';
+import { ColumnChooser, ColumnDirective, ColumnsDirective, ColumnMenu, Filter, Group, Grid, GridComponent, Inject, Page, Reorder, PageSettingsModel, Sort, Selection, Resize, Toolbar } from '@syncfusion/ej2-react-grids';
 import * as React from 'react';
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { Database } from '@/lib/schema_e2emod_dev'
@@ -36,14 +36,14 @@ function Changes() {
     const pageOptions = {
         pageSizes: ['5', '10', '15', '20', 'All']
     };
+
     return (
-        // <div>
         <div className="absolute top-20 mt-3">
-            <GridComponent dataSource={dataChanges} allowResizing={true} allowPaging={true} pageSettings={pageOptions} dataBound={dataBound} ref={g => grid = g} showColumnChooser={true} toolbar={toolbarOptions} >
-                <Inject services={[Resize, Page, Toolbar, ColumnChooser]} />
+            <GridComponent dataSource={dataChanges} allowFiltering={true} allowGrouping={true} allowSorting={true} showColumnMenu={true} allowReordering={true} allowResizing={true} allowPaging={true} pageSettings={pageOptions} allowSelection={true} dataBound={dataBound} ref={g => grid = g} showColumnChooser={true} toolbar={toolbarOptions}>
+                <Inject services={[Resize, Filter, Page, Toolbar, ColumnMenu, Group, ColumnChooser, Reorder, Sort, Selection]} />
                 <ColumnsDirective>
                     {tableHeaders && tableHeaders.map((key) => (
-                        <ColumnDirective key={key.list_of_changes_order} field={key.db_column} headerText={key.label} headerTextAlign='Center' /*maxWidth='400'*/ />
+                        <ColumnDirective key={key.list_of_changes_order} field={key.db_column} headerText={key.label} headerTextAlign='Center' minWidth='50' />
                     ))}
                     {/* <ColumnDirective field='change_id' headerText='ID' width='120' textAlign="Left" />
                     <ColumnDirective field='cr_context' headerText='CR/Context' width='300' />
@@ -57,6 +57,7 @@ function Changes() {
             </GridComponent>
         </div>
     );
-}
+
+};
 
 export default Changes;
