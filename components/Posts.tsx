@@ -106,7 +106,7 @@ function Posts() {
     const filterSettings: FilterSettingsModel = { type: 'Menu' };
 
     return (
-        <div className="absolute top-20 ml-10 mr-10">
+        <div className="absolute top-20 mt-10 ml-10 mr-10">
             <RichPostContent Content="<p>UX _ Desing in Progress _ for <b>Posts</b> and comments</p>" />
             <TreeGridComponent
                 dataSource={summaryRowData}

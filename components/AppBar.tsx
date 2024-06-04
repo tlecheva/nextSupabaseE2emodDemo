@@ -24,9 +24,22 @@ function AppBar({ session, signInWithAzure, signOut }: {
         setToastVisible(false);
     };
 
+
     // avoid consolo.log className Server Client next.js warnings
     const [isClient, setIsClient] = useState(false)
     const [tab, setTab] = useState(0)
+
+    const handleTabChange = (tabNumber: number) => {
+        setTab(tabNumber);
+    };
+
+    // const handleTabChange = (event: React.ChangeEvent<{}>, tabId: number) => {
+    //     console.log("🚀 ~ handleTabChange ~ tabId, event", tabId, event, event.target)
+    //     debugger
+    //     setTab(tabId);
+    // };
+
+
     React.useEffect(() => {
         setIsClient(true)
     }, [])
@@ -51,10 +64,11 @@ function AppBar({ session, signInWithAzure, signOut }: {
         </>
     ) : (
         <Header appName="E2EMod">
-            <Tabs value={0}>
-                <Tab value={0} onClick={setTab}><Link href="/changes">Changes</Link></Tab>
-                <Tab value={1} onClick={setTab}><Link href="/posts">Posts</Link></Tab>
-                <Tab value={2} onClick={setTab}><Link href="/todos">Todos</Link></Tab>
+            <Tabs value={tab}>
+                <Tab value={0} onClick={() => setTab(0)}><Link href="/changes">Changes</Link></Tab>
+                <Tab value={1} onClick={() => setTab(1)}><Link href="/changes_">Changes_</Link></Tab>
+                <Tab value={2} onClick={() => setTab(2)}><Link href="/posts">Posts</Link></Tab>
+                <Tab value={3} onClick={() => setTab(3)}><Link href="/todos">Todos</Link></Tab>
             </Tabs>
             <Tabs />
             <IconButton disabled variant="ghost" />

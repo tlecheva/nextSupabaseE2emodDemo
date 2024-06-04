@@ -29,13 +29,16 @@ export default function Layout({ children }: PropsWithChildren) {
 
     return (
         <>
-            <Head>
-                <title>E2EMod</title>
-                <meta name="description" content="Airbus Atlantic | End to End Change Mode managment" />
-                <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
-            <AppBar session={session} signInWithAzure={signInWithAzure} signOut={signOut} />
+            {/* <span className="flex flex-col" > */}
+            <div className="left-0 right-0 fixed">
+                <Head>
+                    <title>E2EMod</title>
+                    <meta name="description" content="Airbus Atlantic | End to End Change Mode managment" />
+                    <meta name="viewport" content="width=device-width, initial-scale=1" />
+                    <link rel="icon" href="/favicon.ico" />
+                </Head>
+                <AppBar session={session} signInWithAzure={signInWithAzure} signOut={signOut} />
+            </div >
 
             {!session ? (
                 <div
@@ -50,15 +53,11 @@ export default function Layout({ children }: PropsWithChildren) {
                     </div>
                 </div>
             ) : (
-                <div
-                    className="w-full h-full flex flex-col justify-center items-center p-4 overflow-x-auto"
-                    style={{ minWidth: 250, maxWidth: 600, margin: 'auto' }}
-                >
+                <div className="w-full h-full flex flex-col justify-start items-left overflow-x-auto p-3">
                     {children}
-
                 </div>
-            )}
+            )
+            }
         </>
-
     )
 }

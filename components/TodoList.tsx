@@ -54,7 +54,7 @@ export default function TodoList({ session }: { session: Session }) {
   }
 
   return (
-    <div className="w-full">
+    <div className="m-40 w-2/4">
       <h1 className="mb-12">Todo List.</h1>
       <form
         onSubmit={(e) => {
