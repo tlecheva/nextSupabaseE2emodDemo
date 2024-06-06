@@ -6,7 +6,7 @@ export default function Document() {
       <Head>
         <link href="https://cdn.syncfusion.com/ej2/25.1.35/tailwind.css" rel="stylesheet" />
       </Head>
-      <body suppressHydrationWarning>
+      <body style={{ overflowY: 'hidden' }} suppressHydrationWarning>
         <Main />
         <NextScript />
       </body>

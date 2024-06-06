@@ -4,6 +4,7 @@ import Head from 'next/head'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { Auth, ThemeSupa } from '@supabase/auth-ui-react'
 import AppBar from '@/components/AppBar'
+import Changes from "./Changes_";
 
 
 export default function Layout({ children }: PropsWithChildren) {
@@ -28,7 +29,7 @@ export default function Layout({ children }: PropsWithChildren) {
     }
 
     return (
-        <>
+        <div>
             <div className="left-0 right-0 fixed">
                 <Head>
                     <title>E2EMod</title>
@@ -51,12 +52,15 @@ export default function Layout({ children }: PropsWithChildren) {
                         </div>
                     </div>
                 </div>
-            ) : (
-                <div className="w-full h-full flex flex-col justify-start items-left overflow-x-auto p-3">
-                    {children}
-                </div>
-            )
+            ) :
+                (
+                    <div className="p-2" >
+                        {children}
+                    </div>
+                )
             }
-        </>
+        </div >
+        // </div>
+
     )
 }

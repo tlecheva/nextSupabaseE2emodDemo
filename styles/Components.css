@@ -8,13 +8,22 @@
     margin-left: 135px    /* left: 50px; */
 }
 
-/* This will place the drop area to the right of the 'Columns menu' in a table */
-.e-grid .e-groupdroparea {
-    position: absolute;
+/* This will place the drop area to the right of the 'Columns menu' in a GridComponent table */
+/* You may need to remove that if it affects othert drag & drop components */
+.e-grid .e-groupdroparea,
+.e-grid .e-groupdroparea .e-grouped .e-hover {
+    position: absolute !important;
     top: 0;
-    left: 180px !important;
+    left: 600px !important;
+    right: 600px !important;
     padding-left: 15px !important;
     text-align: left !important;
-    z-index: 60;
-    width: 90% !important;
+    z-index: 10 !important;
+    width: 20% !important;
+}
+
+/* On the GridComponent with allowPaging, this will place the mention '1 of 10 pages (345 items) */
+.e-pager div.e-parentmsgbar {
+    float: left !important;
+    margin-right: 80px;
 }
