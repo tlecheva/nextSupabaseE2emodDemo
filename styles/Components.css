@@ -1,7 +1,6 @@
-
-/* To align the GridComponent toolbar items to the left */
-.e-toolbar .e-toolbar-items.e-tbar-pos .e-toolbar-right {
-    left: 5px;
+/* to avoid text overlapping on menu on top of Gid columns */
+.e-contextmenu-wrapper ul, .e-contextmenu-container ul {
+    min-width: 220px;
 }
 
 .e-popup.e-popup-open.e-dialog {
@@ -14,13 +13,14 @@
 .e-grid .e-groupdroparea .e-grouped .e-hover {
     position: absolute !important;
     top: 0;
-    left: 600px !important;
-    right: 600px !important;
+    left: 900px !important;
+    right: 900px !important;
     padding-left: 15px !important;
     text-align: left !important;
     z-index: 10 !important;
     width: 20% !important;
 }
+
 
 /* On the GridComponent with allowPaging, this will place the mention '1 of 10 pages (345 items) */
 .e-pager div.e-parentmsgbar {

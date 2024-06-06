@@ -1,12 +1,12 @@
 import {
     ColumnChooser, ColumnDirective, ColumnsDirective, Search,
-    PdfExport, ExcelExport, Print, ColumnMenu, Filter, Group, Grid, GridComponent, Inject,
-    Page, Reorder, PageSettingsModel, Sort, Selection, Resize, Toolbar
+    ExcelExport, Print, ColumnMenu, Filter, Group, Grid, GridComponent, Inject,
+    Page, Reorder, Sort, Selection, Resize, Toolbar,
 } from '@syncfusion/ej2-react-grids';
 import * as React from 'react';
-import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { Database } from '@/lib/schema_e2emod_dev'
 import { supabase_e2emod_dev, useTableHeaders } from '@/lib/initSupabase';
+import { ItemModel } from '@syncfusion/ej2-react-navigations';
 
 type Changes = Database['e2emod_dev']['Tables']['change']['Row'];
 
@@ -20,7 +20,43 @@ function Changes() {
             grid.autoFitColumns();
         }
     };
-    const toolbarOptions = ['Search', 'ExcelExport', 'Print', 'ColumnChooser'];
+    type ToolbarItem = string | ItemModel
+    const toolbarOptions: ToolbarItem[] = [
+        { text: 'Search', align: 'Left' },
+        { text: 'ColumnChooser', align: 'Left' },
+        { text: '|', width: 10, disabled: true },
+        'ExcelExport',
+        'CsvExport',
+        'Print',
+        // { type: 'Separator', width: 75 },
+        // {
+        //     text: 'Export',
+        //     // tooltipText: 'Export',
+        //     prefixIcon: 'e-export',
+        //     align: 'Left',
+        //     items: [
+        //         { text: 'Export to Excel', id: 'ExcelExport' },
+        //         { text: 'Export to PDF', id: 'PdfExport' },
+        //         { text: 'Export to Csv', id: 'CsvExport' },
+        //     ]
+        // },
+    ]
+    const toolbarClick = (args: { item: { id: string | string[] } }) => {
+        if (grid && args.item.id.includes('csvexport')) {
+            const excelExportProperties = {
+                enableFilter: true,
+                fileName: 'Changes.csv'
+            };
+            grid.csvExport(excelExportProperties);
+        }
+        else if (grid && args.item.id.includes('excelexport')) {
+            const excelExportProperties = {
+                enableFilter: true,
+                fileName: 'Changes.xlsx'
+            };
+            grid.excelExport(excelExportProperties);
+        }
+    };
 
     const loadChanges = async () => {
         const { data, error } = await supabase_e2emod_dev
@@ -51,15 +87,16 @@ function Changes() {
 
             <GridComponent dataSource={dataChanges} allowFiltering={true}
                 allowGrouping={true}
-                allowExcelExport={true} allowPdfExport={true}
+                allowExcelExport={true} toolbarClick={toolbarClick}
                 allowSorting={true} showColumnMenu={true} allowReordering={true}
                 allowResizing={true}
                 allowPaging={true} pageSettings={pageOptions}  // only kept to display the number of rows
-                allowSelection={true} dataBound={dataBound} ref={g => grid = g} showColumnChooser={true} toolbar={toolbarOptions}
+                allowSelection={true} dataBound={dataBound} ref={g => grid = g} showColumnChooser={true}
+                toolbar={toolbarOptions}
                 enableStickyHeader={true}
                 height='calc(100vh - 300px)'   // mandatory to set height for enableStickyHeader
             >
-                <Inject services={[Resize, Filter, Page, Toolbar, Search, //PdfExport, ExcelExport,
+                <Inject services={[Toolbar, Resize, Filter, Page, Search, Print, ExcelExport,
                     ColumnMenu, Group, ColumnChooser, Reorder, Sort, Selection]} />
                 <ColumnsDirective>
                     {tableHeaders && tableHeaders.map((data) => {

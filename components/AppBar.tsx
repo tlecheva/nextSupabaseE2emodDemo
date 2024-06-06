@@ -85,7 +85,9 @@ function AppBar({ session, signInWithAzure, signOut }: {
             <Tabs value={tab}>
                 {availableRoutes.map((route) => (
                     <Tab key={route.tab} value={route.tab}>
-                        <Link href={route.path}>{route.label}</Link>
+                        {/* legacyBehavior is there to avoid <a> console warning, more details here:
+                        https://github.com/vercel/next.js/commit/489e65ed98544e69b0afd7e0cfc3f9f6c2b803b7 */}
+                        <Link legacyBehavior href={route.path}>{route.label}</Link>
                     </Tab>))
                     }
             </Tabs>
