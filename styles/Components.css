@@ -20,6 +20,9 @@
     z-index: 10 !important;
     width: 20% !important;
 }
+.e-gridcontent {
+    overflow-x: auto;
+}
 
 
 /* On the GridComponent with allowPaging, this will place the mention '1 of 10 pages (345 items) */
@@ -27,3 +30,14 @@
     float: left !important;
     margin-right: 80px;
 }
+
+/* Table pager always visible even when scrolling horizontally */
+/* .e-grid .e-pager {
+    position: fixed;
+    margin-top: 15px;
+} */
+
+/* To allow text in Gird to display content into multiple lines rather than hidding end of line */
+/* .e-grid.e-responsive .e-rowcell, .e-grid.e-responsive .e-headercelldiv {
+    white-space: wrap;
+} */

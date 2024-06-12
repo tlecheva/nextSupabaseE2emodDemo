@@ -1,9 +1,9 @@
-import Changes from "@/components/Changes_";
+import EditChange from "@/components/EditChange";
 import { useSession } from "@supabase/auth-helpers-react";
 import React from "react";
 export const ChangesPage = () => {
     const session = useSession()
     if (!session) return <div>Loading session for Changes...</div>
-    return <Changes />;
+    return <EditChange />;
 };
 export default ChangesPage;

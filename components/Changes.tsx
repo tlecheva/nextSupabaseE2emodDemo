@@ -1,58 +1,151 @@
-import { ColumnChooser, ColumnDirective, ColumnsDirective, Grid, GridComponent, Inject, Page, PageSettingsModel, Resize, Toolbar } from '@syncfusion/ej2-react-grids';
+import {
+    ColumnChooser, ColumnDirective, ColumnsDirective, Search,
+    ExcelExport, Print, ColumnMenu, Filter, Group, Grid, GridComponent, Inject,
+    Page, Reorder, Sort, Selection, Resize, Toolbar, Freeze,
+    DetailRow
+} from '@syncfusion/ej2-react-grids';
 import * as React from 'react';
-import { useSupabaseClient } from '@supabase/auth-helpers-react'
-import { Database } from '@/lib/schema'
+import { Database } from '@/lib/schema_e2emod_dev'
+import { supabase_e2emod } from '@/lib/initSupabase';
+import { ItemModel } from '@syncfusion/ej2-react-navigations';
+import { useTableContent, useTableHeaders } from '@/lib/changeDbCalls';
 
-type Changes = Database['public']['Tables']['airbus_sa_changes']['Row'];
+type Changes = Database['e2emod_dev']['Tables']['change']['Row'];
 
 function Changes() {
-
-    const [dataChanges, setDataChanges] = React.useState<Changes[]>([])
-
-    let grid: Grid | null;
+    const grid = React.useRef<Grid | null>(null);
+    const tableHeaders = useTableHeaders()
+    const [tableContent, defaultLoadedChanges] = useTableContent(grid)
 
     const dataBound = () => {
-        if (grid) {
-            grid.autoFitColumns();
+        grid?.current?.autoFitColumns();
+    };
+    type ToolbarItem = string | ItemModel
+    const toolbarOptions: ToolbarItem[] = [
+        { text: 'Search', align: 'Left' },
+        { text: 'ColumnChooser', align: 'Left' },
+        { text: '|', width: 10, disabled: true },
+        'ExcelExport',
+        'CsvExport',
+        'Print',
+        // { type: 'Separator', width: 75 },
+        // {
+        //     text: 'Export',
+        //     tooltipText: 'Export',
+        //     prefixIcon: 'e-export',
+        //     align: 'Left',
+        //     items: [
+        //         { text: 'Export to Excel', id: 'ExcelExport' },
+        //         { text: 'Export to PDF', id: 'PdfExport' },
+        //         { text: 'Export to Csv', id: 'CsvExport' },
+        //     ]
+        // },
+    ]
+    const toolbarClick = (args: { item: { id: string | string[] } }) => {
+        if (grid && args.item.id.includes('csvexport')) {
+            const excelExportProperties = {
+                enableFilter: true,
+                fileName: 'Changes.csv'
+            };
+            grid?.current?.csvExport(excelExportProperties);
+        }
+        else if (grid && args.item.id.includes('excelexport')) {
+            const excelExportProperties = {
+                enableFilter: true,
+                fileName: 'Changes.xlsx'
+            };
+            grid?.current?.excelExport(excelExportProperties);
         }
     };
-    const toolbarOptions = ['ColumnChooser'];
-
-    const supabase = useSupabaseClient<Database>()
-
-    React.useEffect(() => {
-        const loadChanges = async () => {
-            const { data: airbus_sa_changes, error } = await supabase
-                .from('airbus_sa_changes')
-                .select('*')
-            console.log("🚀 ~ loadChanges ~ data:", airbus_sa_changes)
-            if (error) console.log('error', error)
-            else setDataChanges(airbus_sa_changes)
-        }
-        loadChanges()
-    }, [supabase])
 
     const pageOptions = {
-        pageSizes: ['5', '10', '15', '20', 'All']
+        pageSize: tableContent.length || defaultLoadedChanges,
+        pageSizes: ['10', '20', '100', 'All']
     };
-    return (
-        <div className="relative top-20 mt-3 overflow-auto">
-            <GridComponent dataSource={dataChanges} allowResizing={true} allowPaging={true}
-                pageSettings={pageOptions} dataBound={dataBound} ref={g => grid = g} showColumnChooser={true}
-                toolbar={toolbarOptions} >
-                <Inject services={[Resize, Page, Toolbar, ColumnChooser]} />
+
+    console.log("🚀 ~ Changes ~ tableContent, tableHeaders:", tableContent?.length, tableContent, tableHeaders?.length, tableHeaders)
+    if (!tableContent || tableContent.length === 0 || tableHeaders.length === 0)
+        return (<div>Loading...</div>)
+
+    const gridTemplate = (props) => {
+        console.log("🚀 ~ gridTemplate ~ props:", props)
+        // const src = props.EmployeeID + ".png";
+        const renderingMode = 'Vertical';
+
+        return (
+            <GridComponent
+                // frozenColumns={1}  // does not work, left column is not sticked
+                enableAdaptiveUI={true}
+                rowRenderingMode={renderingMode}
+                dataSource={tableContent.filter((data) => data.change_id === props.change_id)}
+                width='calc(100vw - 100px)'
+                allowResizing={true}
+            >
                 <ColumnsDirective>
-                    <ColumnDirective field='id' headerText='ID' width='120' textAlign="Right" />
-                    <ColumnDirective field='cr_context_airbus' headerText='CR/Context' width='300' />
-                    <ColumnDirective field='step_istep' headerText='Step/IStep' width='100' />
-                    <ColumnDirective field='mp_airbus' headerText='MP#' width='100' />
-                    <ColumnDirective field='mod_airbus' headerText='MOD#' width='100' />
-                    <ColumnDirective field='title' headerText='MOD title' width='300' />
-                    <ColumnDirective field='type' headerText='Type' width='100' />
+                    {tableHeaders && tableHeaders.
+                        map((data) => {
+                            const { list_of_changes_order, db_column, label } = data
+                            return <ColumnDirective
+                                key={list_of_changes_order}
+                                field={db_column || undefined}
+                                headerText={label || undefined}
+                                headerTextAlign='Center'
+                                visible={list_of_changes_order !== -1}
+                                minWidth={50}
+                                maxWidth={600} />
+
+                        })}
+                </ColumnsDirective>
+            </GridComponent >
+        )
+    };
+
+    return (
+        <div className="absolute top-20 mt-5" style={{ overflowX: 'auto' }}>
+
+            <GridComponent
+                frozenColumns={1}  // does not work, left column is not sticked
+                dataSource={tableContent}
+                //detailTemplate={gridTemplate}
+                allowFiltering={true}
+                allowGrouping={true}
+                toolbar={toolbarOptions}
+                allowExcelExport={true} toolbarClick={toolbarClick}
+                allowSorting={true} showColumnMenu={true} allowReordering={true}
+                allowResizing={true}
+                allowPaging={true} pageSettings={pageOptions}  // only kept to display the number of rows
+                allowSelection={true}
+                dataBound={dataBound} ref={g => grid.current = g}
+                showColumnChooser={true}
+                allowTextWrap={true}
+                enableStickyHeader={true}
+                height='calc(100vh - 300px)'   // mandatory to set height for enableStickyHeader
+                width='calc(100vw - 15px)'
+            >
+                <Inject services={[Toolbar, Resize, Filter, Page, Search, Print, ExcelExport,
+                    Freeze,
+                    ColumnMenu,
+                    Group,
+                    ColumnChooser, Reorder, Sort, Selection, DetailRow]} />
+                <ColumnsDirective>
+                    {tableHeaders && tableHeaders.
+                        map((data) => {
+                            const { list_of_changes_order, db_column, label } = data
+                            return <ColumnDirective
+                                key={list_of_changes_order}
+                                field={db_column || undefined}
+                                headerText={label || undefined}
+                                headerTextAlign='Center'
+                                visible={list_of_changes_order !== -1}
+                                minWidth={50}
+                                maxWidth={800} />
+
+                        })}
                 </ColumnsDirective>
             </GridComponent>
         </div>
     );
-}
+
+};
 
 export default Changes;

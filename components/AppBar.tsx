@@ -22,8 +22,8 @@ export function useTab() {
         setTab(tabNumber);
     };
     const availableRoutes = [
-        { tab: 0, path: "/changes_", label: "Changes" },
-        { tab: 1, path: "/changes", label: "Changes (old)" },
+        { tab: 0, path: "/changes", label: "Changes" },
+        { tab: 1, path: "/changesOld", label: "Changes (old)" },
         { tab: 2, path: "/posts", label: "Posts" },
         { tab: 3, path: "/todos", label: "Todos" },
     ]
@@ -80,8 +80,7 @@ function AppBar({ session, signInWithAzure, signOut }: {
             )}
         </>
     ) : (
-        <Header appName="E2EMod">
-
+            <Header appName="E2EMod">
             <Tabs value={tab}>
                 {availableRoutes.map((route) => (
                     <Tab key={route.tab} value={route.tab}>

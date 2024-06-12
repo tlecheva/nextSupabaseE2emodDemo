@@ -4,7 +4,7 @@ import Head from 'next/head'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { Auth, ThemeSupa } from '@supabase/auth-ui-react'
 import AppBar from '@/components/AppBar'
-import Changes from "./Changes_";
+import Changes from "./Changes";
 
 
 export default function Layout({ children }: PropsWithChildren) {
@@ -60,7 +60,5 @@ export default function Layout({ children }: PropsWithChildren) {
                 )
             }
         </div >
-        // </div>
-
     )
 }

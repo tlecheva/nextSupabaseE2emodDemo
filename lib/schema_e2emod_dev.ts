@@ -93,7 +93,7 @@ export type Database = {
           input_type: string | null
           label: string | null
           length: string | null
-          list_of_changes_order: string | null
+          list_of_changes_order: number | null
           modification_date: string
           nullable: string | null
           ref_source: string | null
