@@ -554,10 +554,46 @@ video {
   --tw-contain-style:  ;
 }
 
-/* @import "../components/stepper.css"; */
+.container {
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .container {
+    max-width: 1536px;
+  }
+}
 
 .visible {
   visibility: visible;
+}
+
+.collapse {
+  visibility: collapse;
 }
 
 .fixed {
@@ -588,6 +624,14 @@ video {
   top: 5rem;
 }
 
+.float-right {
+  float: right;
+}
+
+.float-left {
+  float: left;
+}
+
 .m-40 {
   margin: 10rem;
 }
@@ -616,6 +660,10 @@ video {
 
 .mr-10 {
   margin-right: 2.5rem;
+}
+
+.mr-5 {
+  margin-right: 1.25rem;
 }
 
 .mt-10 {
@@ -670,6 +718,10 @@ video {
   width: 1rem;
 }
 
+.w-40 {
+  width: 10rem;
+}
+
 .w-56 {
   width: 14rem;
 }
@@ -698,6 +750,10 @@ video {
   flex-direction: column;
 }
 
+.content-end {
+  align-content: flex-end;
+}
+
 .items-center {
   align-items: center;
 }
@@ -716,6 +772,10 @@ video {
 
 .gap-2 {
   gap: 0.5rem;
+}
+
+.self-center {
+  align-self: center;
 }
 
 .overflow-auto {

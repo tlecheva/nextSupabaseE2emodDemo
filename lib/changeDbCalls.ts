@@ -14,7 +14,10 @@ export function useTableHeaders() {
     const loadTableHeaders = async () => {
       const { data, error } = await supabase_e2emod
         .from('dict_attribute')
-        .select('list_of_changes_order, label, db_column')
+        // .select('list_of_changes_order, label, db_column')
+        .select('*')
+                  // .select('label, attribute, format, length, display_tooltip, edit_order')
+
         .neq('label', '') // Add the missing third argument
         .neq('list_of_changes_order', -1)
         .order('list_of_changes_order');

@@ -1,14 +1,14 @@
 import {
     ColumnChooser, ColumnDirective, ColumnsDirective, Search,
     ExcelExport, Print, ColumnMenu, Filter, Group, Grid, GridComponent, Inject,
-    Page, Reorder, Sort, Selection, Resize, Toolbar, Freeze,
-    DetailRow
+    Page, Reorder, Sort, Selection, Resize, Toolbar, Freeze, Edit
 } from '@syncfusion/ej2-react-grids';
 import * as React from 'react';
 import { Database } from '@/lib/schema_e2emod_dev'
 import { supabase_e2emod } from '@/lib/initSupabase';
 import { ItemModel } from '@syncfusion/ej2-react-navigations';
 import { useTableContent, useTableHeaders } from '@/lib/changeDbCalls';
+import { useRouter } from 'next/navigation';
 
 type Changes = Database['e2emod_dev']['Tables']['change']['Row'];
 
@@ -16,6 +16,7 @@ function Changes() {
     const grid = React.useRef<Grid | null>(null);
     const tableHeaders = useTableHeaders()
     const [tableContent, defaultLoadedChanges] = useTableContent(grid)
+    const router = useRouter()
 
     const dataBound = () => {
         grid?.current?.autoFitColumns();
@@ -67,75 +68,54 @@ function Changes() {
     if (!tableContent || tableContent.length === 0 || tableHeaders.length === 0)
         return (<div>Loading...</div>)
 
-    const gridTemplate = (props) => {
-        console.log("🚀 ~ gridTemplate ~ props:", props)
-        // const src = props.EmployeeID + ".png";
-        const renderingMode = 'Vertical';
+    const editOptions = { allowEditing: true, showConfirmDialog: false, mode: 'Normal' };
+    const onDoubleClick = (args) => {
+        //  router.push({ pathname: '/editChange', query: { change_id: args?.rowData.change_id } })
+        router.push({ pathname: '/editChange', query: args?.rowData })
+    }
 
-        return (
-            <GridComponent
-                // frozenColumns={1}  // does not work, left column is not sticked
-                enableAdaptiveUI={true}
-                rowRenderingMode={renderingMode}
-                dataSource={tableContent.filter((data) => data.change_id === props.change_id)}
-                width='calc(100vw - 100px)'
-                allowResizing={true}
-            >
-                <ColumnsDirective>
-                    {tableHeaders && tableHeaders.
-                        map((data) => {
-                            const { list_of_changes_order, db_column, label } = data
-                            return <ColumnDirective
-                                key={list_of_changes_order}
-                                field={db_column || undefined}
-                                headerText={label || undefined}
-                                headerTextAlign='Center'
-                                visible={list_of_changes_order !== -1}
-                                minWidth={50}
-                                maxWidth={600} />
-
-                        })}
-                </ColumnsDirective>
-            </GridComponent >
-        )
-    };
+    /////////////////
 
     return (
         <div className="absolute top-20 mt-5" style={{ overflowX: 'auto' }}>
-
             <GridComponent
-                frozenColumns={1}  // does not work, left column is not sticked
+                editSettings={editOptions}
+                recordDoubleClick={onDoubleClick}
+                frozenColumns={1} 
                 dataSource={tableContent}
-                //detailTemplate={gridTemplate}
                 allowFiltering={true}
                 allowGrouping={true}
                 toolbar={toolbarOptions}
-                allowExcelExport={true} toolbarClick={toolbarClick}
-                allowSorting={true} showColumnMenu={true} allowReordering={true}
+                allowExcelExport={true}
+                toolbarClick={toolbarClick}
+                allowSorting={true}
+                showColumnMenu={true}
+                allowReordering={true}
                 allowResizing={true}
-                allowPaging={true} pageSettings={pageOptions}  // only kept to display the number of rows
+                allowPaging={true}
+                pageSettings={pageOptions}  // only kept to display the number of rows
                 allowSelection={true}
-                dataBound={dataBound} ref={g => grid.current = g}
+                dataBound={dataBound}
+                ref={g => grid.current = g}
                 showColumnChooser={true}
                 allowTextWrap={true}
                 enableStickyHeader={true}
                 height='calc(100vh - 300px)'   // mandatory to set height for enableStickyHeader
                 width='calc(100vw - 15px)'
             >
-                <Inject services={[Toolbar, Resize, Filter, Page, Search, Print, ExcelExport,
-                    Freeze,
-                    ColumnMenu,
-                    Group,
-                    ColumnChooser, Reorder, Sort, Selection, DetailRow]} />
+                <Inject services={[Edit, Toolbar, Resize, Filter, Page, Search, Print, ExcelExport,
+                    Freeze, ColumnMenu, Group, ColumnChooser, Reorder, Sort, Selection]} />
                 <ColumnsDirective>
                     {tableHeaders && tableHeaders.
                         map((data) => {
-                            const { list_of_changes_order, db_column, label } = data
+                            const { list_of_changes_order, db_column, label, format } = data
                             return <ColumnDirective
                                 key={list_of_changes_order}
+                                isPrimaryKey={label === 'ID'} 
                                 field={db_column || undefined}
                                 headerText={label || undefined}
                                 headerTextAlign='Center'
+                                type={format ? format : undefined} 
                                 visible={list_of_changes_order !== -1}
                                 minWidth={50}
                                 maxWidth={800} />

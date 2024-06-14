@@ -1,3 +1,6 @@
+
+@import "../node_modules/@syncfusion/ej2-react-navigations/styles/material.css";
+
 /* to avoid text overlapping on menu on top of Gid columns */
 .e-contextmenu-wrapper ul, .e-contextmenu-container ul {
     min-width: 220px;
@@ -31,13 +34,111 @@
     margin-right: 80px;
 }
 
-/* Table pager always visible even when scrolling horizontally */
-/* .e-grid .e-pager {
-    position: fixed;
-    margin-top: 15px;
+
+/* .control-section {
+    background-color: red;
+    margin-top: 80px;
 } */
 
-/* To allow text in Gird to display content into multiple lines rather than hidding end of line */
-/* .e-grid.e-responsive .e-rowcell, .e-grid.e-responsive .e-headercelldiv {
-    white-space: wrap;
-} */
+.sidebar-wrapper {
+    display: flex;
+    flex-direction: row;
+    background-color: blue;
+    margin-top: 50px;
+    margin-left: 50px
+}
+
+
+.sidebar-component {
+    /* display: flex;
+    flex-direction: column; */
+    background-color: #00205b; 
+    margin-top: 71px;
+    padding-left: 15px;
+    margin-right: 50px;
+    /* padding-right: 10px */
+    /* width: 220px !important; */
+}
+
+.sidebar-component-hidden {
+    /* margin-left: 50px; */
+
+    /* background-color: #00205b; 
+    margin-top: 71px;
+    padding-left: 15px; */
+    /* margin-right: 10px; */
+    /* width: 60px !important; */
+} 
+
+
+html, body {
+  /* height: 100%; */
+}
+
+.sidebar-container {
+  position: fixed;
+  background-color: yellow;
+  display: flex;
+  width: 100%;
+  margin-top: 60px;
+  margin-left: -8px;
+  margin-bottom: 20px;
+}
+
+.sidebar-items {
+  flex: 1 0 220px;
+  background-color: #00205b;
+  color:aliceblue;
+  height: 100%;
+  padding-left: 10px;
+  height: 100vh;
+  &.sidebar-collapsed {
+      transform: translateX(-80%);
+  } 
+}
+
+.sidebar-items-right-aligned {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 5px
+}
+
+.sidebar-content {
+  width: 100%;
+  height: 100%;
+  margin-top: 10px;
+  background: #999;
+  margin-left: 8px;
+  &.is-full-width {
+    margin-left: -170px;
+  }
+}
+
+.sidebar-content-columns-items {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    flex-grow: 4;
+    justify-content: space-between;
+    background-color: yellow;
+    margin-right: 15px;
+    margin-top: 20px;
+    /* padding-left: 15px; */
+}
+
+
+
+.e-menu-wrapper ul .e-menu-item, .e-menu-container ul .e-menu-item {
+    height: 32px;
+    line-height: 32px;
+
+}
+
+
+.e-menu-wrapper.e-popup.e-menu-popup, .e-menu-container.e-popup.e-menu-popup {
+    border-radius: 5px; /* Adjust as needed */
+}
+
+.e-menu-wrapper ul .e-menu-item, .e-menu-container ul .e-menu-item {
+    border-radius: 5px; /* Adjust as needed */
+}

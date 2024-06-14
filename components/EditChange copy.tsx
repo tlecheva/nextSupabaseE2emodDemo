@@ -26,7 +26,6 @@ function EditChange() {
     const [showSideBar, setShowSideBar] = React.useState(true)
     const sideBarTitles = ['Attributes', 'Multi-standard', 'Sketches & Comments', '..etc..']
     const onClickMenuSidebar = () => {
-        console.log("🚀 ~ onClickMenuSidebar ~ showSideBar:", showSideBar)
         setShowSideBar(!showSideBar)
     }
 
@@ -37,42 +36,42 @@ function EditChange() {
     }, [router.query]);
 
     return (
-        <div className="sidebar-container">
-            <aside className={`sidebar-items${showSideBar ? '' : ' sidebar-collapsed'}`}>
+        <div className="container">
+            <aside className="sidebar">
+            </aside>
+            <section className="content">
+                <button className="btn">Toggle</button>
+            </section>
+        </div>)
+
+    return (
+        <div id="sidebar-wrapper">
+            <SidebarComponent id="sidebar-component"
+                style={{ width: showSideBar ? "210px" : '60px' }}
+            >
                 <ColorModeProvider mode="dark">
-                    <div className="sidebar-items-right-aligned" onClick={onClickMenuSidebar} >
+                    <div className="sidebar-right-aligned-container" onClick={onClickMenuSidebar} >
                         <IconButton variant="ghost" aria-label="Search">
                             <MenuIcon />
                         </IconButton>
                     </div>
                     {showSideBar && sideBarTitles.map((title) => (
-                        <Typography key={title} variant="medium" color="secondary" className="mr-5">
+                        <Typography key={title} variant="medium" color="secondary">
                             {title}
                         </Typography>))
                     }
                 </ColorModeProvider>
-            </aside>
-            <section className={`sidebar-content${showSideBar ? '' : ' is-full-width'}`}>
-                <button onClick={onClickMenuSidebar} className="btn">Toggle</button>
-                <div id="sidebar-content-columns" >
-                    <div className="sidebar-content-columns-items" >
-                        {/* <div className="sidebar-content" style={{ paddingLeft: showSideBar ? "60px" : '210px' }}> */}
-                        <div className="title">CR/Context</div>
-                        <TextAreaComponent id='default' placeholder='CR/Context' value={query?.cr_context} width="25%" height="30" />
-                        <div className="title">MP#</div>
-                        <TextAreaComponent id='default' placeholder='' value={query?.mp} width="25%" />
-                        <TextAreaComponent id='default' placeholder='MOD#' value={query?.mod} width="25%" />
-                        <TextAreaComponent id='default' placeholder='Scope' value={query?.scope} width="80%" />
-                    </div>
-                    <br />
-                    <TextAreaComponent id='default' placeholder='MOD Title' value={query?.title} width="90%" />
-
-                    <div className="title">Main content</div>
-                    <div className="sub-title"> content goes here</div>
-                    <div className="sub-title"> content goes here</div>
-                    <Input placeholder="Placeholder" onChange={() => console.log("onChange")} />
-                    <input className="e-input" type="text" placeholder="Enter Name" />
+            </SidebarComponent>
+            <div id="sidebar-content-columns" style={{ paddingLeft: showSideBar ? "50px" : '10px' }}>
+                <div className="sidebar-content" >
+                    {/* <div className="sidebar-content" style={{ paddingLeft: showSideBar ? "60px" : '210px' }}> */}
+                    <TextAreaComponent id='default' placeholder='CR/Context' value={query?.cr_context} width="500" height="30" />
+                    <TextAreaComponent id='default' placeholder='MP#' value={query?.mp} width="500" />
+                    <TextAreaComponent id='default' placeholder='MOD#' value={query?.mod} width="500" />
+                    <TextAreaComponent id='default' placeholder='Scope' value={query?.scope} width="2000" />
                 </div>
+                <br />
+                <TextAreaComponent id='default' placeholder='MOD Title' value={query?.title} width="90%" />
 
                 <div className="title">Main content</div>
                 <div className="sub-title"> content goes here</div>
@@ -80,9 +79,9 @@ function EditChange() {
                 <Input placeholder="Placeholder" onChange={() => console.log("onChange")} />
                 <input className="e-input" type="text" placeholder="Enter Name" />
                 <TextAreaComponent id='default' placeholder='Enter your comments' floatLabelType='Auto'>My Comment</TextAreaComponent>
-                <TextAreaComponent id='default' placeholder='Space' floatLabelType='Auto'></TextAreaComponent>
-            </section>
-        </div>)
+            </div>
+        </div >)
+
 };
 
 export default EditChange;
