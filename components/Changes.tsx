@@ -14,6 +14,7 @@ type Changes = Database['e2emod_dev']['Tables']['change']['Row'];
 
 function Changes() {
     const grid = React.useRef<Grid | null>(null);
+    const [frozenColumns, setFrozenColumns] = React.useState<number>(4);
     const tableHeaders = useTableHeaders()
     const [tableContent, defaultLoadedChanges] = useTableContent(grid)
     const router = useRouter()
@@ -23,9 +24,12 @@ function Changes() {
     };
     type ToolbarItem = string | ItemModel
     const toolbarOptions: ToolbarItem[] = [
+        { text: ' + ', tooltipText: 'Add one frozen column', id: 'toolbar+' },
+        { text: ' - ', tooltipText: 'Remove one frozen column', id: 'toolbar-' },
         { text: 'Search', align: 'Left' },
         { text: 'ColumnChooser', align: 'Left' },
-        { text: '|', width: 10, disabled: true },
+        // { text: '|', width: 10, disabled: true },
+        { type: 'Separator', width: 75 },
         'ExcelExport',
         'CsvExport',
         'Print',
@@ -43,7 +47,14 @@ function Changes() {
         // },
     ]
     const toolbarClick = (args: { item: { id: string | string[] } }) => {
-        if (grid && args.item.id.includes('csvexport')) {
+        if (grid && args.item.id === 'toolbar+') {
+            setFrozenColumns(frozenColumns + 1)
+
+        }
+        else if (grid && args.item.id === 'toolbar-') {
+            setFrozenColumns(frozenColumns - 1)
+        }
+        else if (grid && args.item.id.includes('csvexport')) {
             const excelExportProperties = {
                 enableFilter: true,
                 fileName: 'Changes.csv'
@@ -69,9 +80,11 @@ function Changes() {
         return (<div>Loading...</div>)
 
     const editOptions = { allowEditing: true, showConfirmDialog: false, mode: 'Normal' };
-    const onDoubleClick = (args) => {
-        //  router.push({ pathname: '/editChange', query: { change_id: args?.rowData.change_id } })
-        router.push({ pathname: '/editChange', query: args?.rowData })
+    const onDoubleClick = (args: { rowData: Changes }) => {
+        const query = Object.entries(args?.rowData)
+            .map(([key, value]) => `${key}=${value}`)
+            .join('&')
+        router.push(`/editChange?${query}`)
     }
 
     /////////////////
@@ -81,7 +94,7 @@ function Changes() {
             <GridComponent
                 editSettings={editOptions}
                 recordDoubleClick={onDoubleClick}
-                frozenColumns={1} 
+                frozenColumns={frozenColumns} 
                 dataSource={tableContent}
                 allowFiltering={true}
                 allowGrouping={true}
