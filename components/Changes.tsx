@@ -24,8 +24,14 @@ function Changes() {
     };
     type ToolbarItem = string | ItemModel
     const toolbarOptions: ToolbarItem[] = [
-        { text: ' + ', tooltipText: 'Add one frozen column', id: 'toolbar+' },
-        { text: ' - ', tooltipText: 'Remove one frozen column', id: 'toolbar-' },
+        {
+            prefixIcon: 'e-plus',
+            tooltipText: 'Add one frozen column', id: 'toolbar+'
+        },
+        {
+            prefixIcon: 'e-intermediate-state',
+            tooltipText: 'Remove one frozen column', id: 'toolbar-'
+        },
         { text: 'Search', align: 'Left' },
         { text: 'ColumnChooser', align: 'Left' },
         // { text: '|', width: 10, disabled: true },
@@ -33,7 +39,6 @@ function Changes() {
         'ExcelExport',
         'CsvExport',
         'Print',
-        // { type: 'Separator', width: 75 },
         // {
         //     text: 'Export',
         //     tooltipText: 'Export',
@@ -79,7 +84,6 @@ function Changes() {
     if (!tableContent || tableContent.length === 0 || tableHeaders.length === 0)
         return (<div>Loading...</div>)
 
-    const editOptions = { allowEditing: true, showConfirmDialog: false, mode: 'Normal' };
     const onDoubleClick = (args: { rowData: Changes }) => {
         const query = Object.entries(args?.rowData)
             .map(([key, value]) => `${key}=${value}`)
@@ -92,7 +96,6 @@ function Changes() {
     return (
         <div className="absolute top-20 mt-5" style={{ overflowX: 'auto' }}>
             <GridComponent
-                editSettings={editOptions}
                 recordDoubleClick={onDoubleClick}
                 frozenColumns={frozenColumns} 
                 dataSource={tableContent}
@@ -116,7 +119,7 @@ function Changes() {
                 height='calc(100vh - 300px)'   // mandatory to set height for enableStickyHeader
                 width='calc(100vw - 15px)'
             >
-                <Inject services={[Edit, Toolbar, Resize, Filter, Page, Search, Print, ExcelExport,
+                <Inject services={[Toolbar, Resize, Filter, Page, Search, Print, ExcelExport,
                     Freeze, ColumnMenu, Group, ColumnChooser, Reorder, Sort, Selection]} />
                 <ColumnsDirective>
                     {tableHeaders && tableHeaders.
