@@ -1,7 +1,7 @@
 
 import * as React from 'react';
 import { useEditChangeHeader } from '@/lib/changeDbCalls';
-import { ColorModeProvider, IconButton, Input, Typography } from '@airbus/components-react';
+import { ColorModeProvider, Divider, IconButton, Input, Typography } from '@airbus/components-react';
 import {
     Menu as MenuIcon
 } from "@airbus/icons/react";
@@ -9,7 +9,10 @@ import {
 import { TextAreaComponent } from '@syncfusion/ej2-react-inputs';
 import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
-import { updateChangeTitle } from '@/lib/updateChange';
+import { updateChange } from '@/lib/updateChange';
+
+
+
 
 function EditChange() {
     const router = useRouter();
@@ -20,15 +23,28 @@ function EditChange() {
         setShowSideBar(!showSideBar)
     }
 
-    const [query, setQuery] = React.useState<ParsedUrlQuery | null>(null)
-
-
-    React.useEffect(() => {
-        setQuery(router?.query)
-    }, [router.query]);
-
-    const { cr_context, change_id, mp, mod, title, scope } = query || {} as ParsedUrlQuery;
-
+    const EditableHeaderChange = (label: string, attribute: string, width: string, { blue = false, enabled = true }
+        : { blue?: boolean, enabled?: boolean } = {}) => {
+        const query = router.query
+        const { change_id } = query
+        const val = query[attribute]
+        const value: string = !val || val === 'null' ? '' : String(val)
+        return (
+            <>
+                <TextAreaComponent id='default'
+                    placeholder={label}
+                    enabled={enabled}
+                    floatLabelType="Always"
+                    value={value}
+                    width={width}
+                    cssClass={blue ? 'textAeraComponent-blue' : ''}
+                    resizeMode="Vertical"
+                    rows={1} /* works well */
+                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                        updateChange(String(change_id), attribute, e.target.value)}
+                />
+            </>)
+    }
 
     return (
         <div className="sidebar-container">
@@ -47,35 +63,20 @@ function EditChange() {
                 </ColorModeProvider>
             </aside>
             <section className={`sidebar-content${showSideBar ? '' : ' is-full-width'}`}>
-                <div id="sidebar-content-columns">
-                    <div className="sidebar-content-columns-items disabled" >
-                        <Typography variant="small" color="secondary" className="">CR/Context</Typography>
-                        <TextAreaComponent id='default' placeholder='CR/Context' value={cr_context} width="27%" className="disabled" />
-                        <Typography variant="small" color="secondary">MP#</Typography>
-                        <TextAreaComponent id='default' placeholder='' value={mp} width="18%" />
-                        <Typography variant="small" color="secondary">MOD#</Typography>
-                        <TextAreaComponent id='default' placeholder='MOD#' value={mod} width="18%" />
-                        <Typography variant="small" color="tertiary">Scope</Typography>
-                        <TextAreaComponent id='default' placeholder='Scope' value={scope} width="50%" />
-                    </div>
-                    <br />
-                    <div className="sidebar-content-columns-items sidebar-content-columns-nitems">
-                        <Typography variant="small" color="secondary" className="mr-3">MOD Title (db change is enabled here)</Typography>
-                        <TextAreaComponent id='default'
-                            placeholder='MOD Title'
-                            value={title}
-                            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => updateChangeTitle(change_id, e)}
-                            width="100%" />
-                    </div>
+                <div className="sidebar-content-columns-items" >
+                    {EditableHeaderChange('CR/Context', 'cr_context', '20%', { enabled: false })}
+                    {EditableHeaderChange('MP#', 'mp', '18%')}
+                    {EditableHeaderChange('MOD#', 'mod', '18%')}
+                    {EditableHeaderChange('Scope', 'scope', '50%', { blue: true })}
                 </div>
-
-                {/* <div className="title">Main content</div>
-                <div className="sub-title"> content goes here</div>
-                <div className="sub-title"> content goes here</div>
-                <Input placeholder="Placeholder" onChange={() => console.log("onChange")} />
-                <input className="e-input" type="text" placeholder="Enter Name" />
-                <TextAreaComponent id='default' placeholder='Enter your comments' floatLabelType='Auto'>My Comment</TextAreaComponent>
-                <TextAreaComponent id='default' placeholder='Space' floatLabelType='Auto'></TextAreaComponent> */}
+                <div className="sidebar-content-columns-items sidebar-content-columns-nitems">
+                    {EditableHeaderChange('MOD Title', 'title', '100%')}
+                </div>
+                <div className="sidebar-content-columns-items sidebar-content-columns-nitems">
+                    {EditableHeaderChange('POE Conf', 'poe_conf', '18%')}
+                    {EditableHeaderChange('First MSN Manufactured', '', '37%')}
+                    {EditableHeaderChange('MOD Opening', 'opening', '100%', { blue: true })}
+                </div>
             </section>
         </div>)
 };
