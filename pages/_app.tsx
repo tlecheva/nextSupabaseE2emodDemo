@@ -12,6 +12,8 @@ import type { AppProps } from 'next/app'
 // to avoid useLayoutEffect warnings
 // if (typeof window === "undefined") React.useLayoutEffect = () => { };
 import { registerLicense } from "@syncfusion/ej2-base";
+import { ApolloProvider } from "@apollo/client"
+import apolloClient from "@/lib/initGraphQL"
 
 if (!process.env.NEXT_PUBLIC_SYNCFUSION_LICENSE) {
   throw new Error('NEXT_PUBLIC_SYNCFUSION_LICENSE should be set in .env file');
@@ -26,9 +28,12 @@ registerLicense(
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <SessionContextProvider supabaseClient={supabase}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <ApolloProvider client={apolloClient}>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </ApolloProvider>,
+
     </SessionContextProvider>
   )
 }

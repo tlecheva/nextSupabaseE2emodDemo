@@ -1,16 +1,46 @@
 import { Database } from '@/lib/schema'
+import { useQuery, gql } from '@apollo/client'
 import { Session, useSupabaseClient } from '@supabase/auth-helpers-react'
+
 import { useEffect, useState } from 'react'
 
 type Todos = Database['public']['Tables']['todos']['Row']
+
+/* does not work authorization issue */
+const allTodosQueryDocument = gql`
+  query AllTodos($cursor: Cursor) {
+    todosCollection(first: 10, after: $cursor) {
+      edges {
+        node {
+          id
+          task
+        }
+      }
+    }
+  }
+`
 
 export default function TodoList({ session }: { session: Session }) {
   const supabase = useSupabaseClient<Database>()
   const [todos, setTodos] = useState<Todos[]>([])
   const [newTaskText, setNewTaskText] = useState('')
   const [errorText, setErrorText] = useState('')
+  const { data, fetchMore } = useQuery(allTodosQueryDocument)
+  console.log("🚀 ~ TodoList ~ data:", data)
 
   const user = session.user
+
+  const channelA = supabase
+    .channel('schema-db-changes')
+    .on(
+      'postgres_changes',
+      {
+        event: '*',
+        schema: 'public',
+      },
+      (payload) => console.log("Realtime change found on db!", payload)
+    )
+    .subscribe()
 
   useEffect(() => {
     const fetchTodos = async () => {
