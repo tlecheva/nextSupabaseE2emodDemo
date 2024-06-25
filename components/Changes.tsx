@@ -88,7 +88,7 @@ function Changes() {
         const query = Object.entries(args?.rowData)
             .map(([key, value]) => `${key}=${value}`)
             .join('&')
-        router.push(`/editChange?${query}`)
+        router.push(`/sideBarAndContent?${query}`)
     }
 
     /////////////////
