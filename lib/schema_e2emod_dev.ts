@@ -86,7 +86,7 @@ export type Database = {
           db_column: string | null
           db_table: string | null
           display_tooltip: string | null
-          edit_order: string | null
+          edit_change_order: string | null
           entity: string | null
           format: string | null
           id: number
@@ -108,7 +108,7 @@ export type Database = {
           db_column?: string | null
           db_table?: string | null
           display_tooltip?: string | null
-          edit_order?: string | null
+          edit_change_order?: string | null
           entity?: string | null
           format?: string | null
           id?: number
@@ -130,7 +130,7 @@ export type Database = {
           db_column?: string | null
           db_table?: string | null
           display_tooltip?: string | null
-          edit_order?: string | null
+          edit_change_order?: string | null
           entity?: string | null
           format?: string | null
           id?: number

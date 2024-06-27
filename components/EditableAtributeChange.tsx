@@ -8,7 +8,7 @@ import { updateChange } from '@/lib/updateChange';
 interface ExtendedTextAreaComponentProps {
     id?: string;
     rows?: number; // Your additional prop here
-    onBlur?: (e: React.FocusEvent<HTMLTextAreaElement>) => void;
+    blur?: (e: React.FocusEvent<HTMLTextAreaElement>) => void;
     placeholder: string;
     enabled: boolean;
     floatLabelType: string;
@@ -19,6 +19,16 @@ interface ExtendedTextAreaComponentProps {
 }
 
 // Create a functional component that wraps the original TextAreaComponent
+// const ExtendedTextAreaComponent: React.FC<ExtendedTextAreaComponentProps> = (props) => {
+// To avoid consoloe warning on 'value'..    
+// const [val, setVal] = React.useState(props.value);
+//     const handleChange = (event) => {
+//         setVal(event.target.value);
+//     };
+//     return (
+//         <TextAreaComponent {...props} value={val} change={handleChange} />
+//     );
+// };
 const ExtendedTextAreaComponent: React.FC<ExtendedTextAreaComponentProps> = (props) => {
     return (
         <TextAreaComponent {...props} />
@@ -36,7 +46,8 @@ export const EditableAtributeChange = (label: string, attribute: string, width: 
     return (
         <>
             <ExtendedTextAreaComponent
-                id={'TextAreaComponent' + label}
+                id={'TextAreaComponent' + attribute}
+                key={'TextAreaComponent' + attribute}
                 placeholder={label}
                 enabled={enabled}
                 floatLabelType="Always"
@@ -45,7 +56,7 @@ export const EditableAtributeChange = (label: string, attribute: string, width: 
                 cssClass={blue ? 'textAeraComponent-blue' : ''}
                 resizeMode="Vertical"
                 rows={1}
-                onBlur={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                blur={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                     updateChange(String(change_id), attribute, e.target.value)}
             />
         </>)

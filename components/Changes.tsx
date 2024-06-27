@@ -14,7 +14,7 @@ type Changes = Database['e2emod_dev']['Tables']['change']['Row'];
 
 function Changes() {
     const grid = React.useRef<Grid | null>(null);
-    const [frozenColumns, setFrozenColumns] = React.useState<number>(4);
+    const [frozenColumns, setFrozenColumns] = React.useState<number>(2);
     const tableHeaders = useTableHeaders()
     const [tableContent, defaultLoadedChanges] = useTableContent(grid)
     const router = useRouter()

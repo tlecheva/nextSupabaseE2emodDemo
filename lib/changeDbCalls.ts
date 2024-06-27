@@ -16,8 +16,6 @@ export function useTableHeaders() {
         .from('dict_attribute')
         // .select('list_of_changes_order, label, db_column')
         .select('*')
-                  // .select('label, attribute, format, length, display_tooltip, edit_order')
-
         .neq('label', '') // Add the missing third argument
         .neq('list_of_changes_order', -1)
         .order('list_of_changes_order');
@@ -66,25 +64,30 @@ export function useTableContent(grid: React.MutableRefObject<Grid | null>, chang
   }
 
 
-  export function useEditChangeHeader() {
-    const [tableHeaders, setTableHeaders] = React.useState([] as TableHeaders[]) //React.useState(null as TableHeaders[] | null);
-
+  export function useEditChangeHeader(category: string = 'General attributes') {
+    const screen_order: string = 'edit_change_order'
+    const [tableHeaders, setTableHeaders] = React.useState([] as TableHeaders[])
     React.useEffect(() => {
       const loadTableHeaders = async () => {
         const { data, error } = await supabase_e2emod
           .from('dict_attribute')
-          .select('label, attribute, format, length, display_tooltip, edit_order')
-          .eq('category', 'Header') 
-          .neq('list_of_changes_order', -1)
-          .order('list_of_changes_order');
-        console.log("🚀 ~ useEditChangeHeader ~ headers:", data);
+          .select('label, attribute, format, length, display_tooltip, ' + screen_order)
+          .eq('category', category) 
+          .neq(screen_order, -1)
+          .order(screen_order);
+        console.log("🚀 ~ useEditChangeHeader ~ headers for:", category, data);
         if (error) console.log('error', error);
-        else setTableHeaders(data as TableHeaders[]);
+        else if (Array.isArray(data) 
+                    && data.every(item => typeof item === 'object' 
+                    && item !== null 
+                    && 'attribute' in item)) {
+          setTableHeaders(data as TableHeaders[]);
+        }
       }
       loadTableHeaders()
       return () => {
       };
-    }, []);
+    }, [category]);
     return tableHeaders;
 }
 
