@@ -4,8 +4,8 @@ import { PhaseAndStatusStepper } from './PhaseAndStatusStepper';
 import { EditChangeTabs } from './EditChangeTabs';
 import { EditableAtributeChange } from './EditableAtributeChange';
 
-export const SideBarContent = ({ showSideBar }:
-    { showSideBar: boolean }) =>
+export const SideBarContent = ({ showSideBar, component }:
+    { showSideBar: boolean, component: string }) =>
 (
     <section className={`sidebar-content${showSideBar ? '' : ' is-full-width'}`}>
         <div className="sidebar-content-columns-items mb-10" >
@@ -22,8 +22,7 @@ export const SideBarContent = ({ showSideBar }:
                 {EditableAtributeChange('Scope', 'scope', '50%', { blue: true })}
             </div>
             <PhaseAndStatusStepper />
-            <EditChangeTabs />
+            {component === 'Attributes' ? <EditChangeTabs /> : null}
         </div>
-
     </section>
 )

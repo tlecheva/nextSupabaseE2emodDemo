@@ -4,12 +4,10 @@ import { Stack, Tab, Tabs } from '@airbus/components-react';
 import { Event } from "@airbus/icons/react";
 import { AttributesForCategory } from './AttributesForCategory';
 
-
 export const EditChangeTabs = () => {
     const [selectedTab, setSelectedTab] = React.useState(0);
     const categories = ['General attributes', 'Evaluation analysis', 'Investigation analysis', 'Industrial Calendar']
     const [category, setCategory] = React.useState(categories[0]);
-    console.log("🚀 ~ EditChangeTabs ~ selectedTab:", selectedTab)
 
     const onChange = (value: number) => {
         setSelectedTab(value)
@@ -26,9 +24,9 @@ export const EditChangeTabs = () => {
                     variant="container"
                 >
                     <Tab>General Attributes</Tab>
-                    <Tab >Evaluation Analysis</Tab>
+                    <Tab>Evaluation Analysis</Tab>
                     <Tab>Investigation Analysis</Tab>
-                    <Tab icon={<Event />}>Industrial Calendar</Tab>
+                    <Tab disabled icon={<Event />}>Industrial Calendar</Tab>
                 </Tabs>
             </Stack>
             <AttributesForCategory category={category} />
