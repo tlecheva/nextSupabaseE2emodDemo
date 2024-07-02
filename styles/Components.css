@@ -66,15 +66,32 @@
   width: 100%;
   height: 100%;
   margin-left: 5px;
-  padding-right: 15px;
   &.is-full-width {
     margin-left: -150px;
   }
 }
+.sidebar-content-columns-items {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    flex-grow: 4;
+    margin-top: 10px;
+    margin-left: 5px;
+    margin-right: 40px;
+}
+
+.sidebar-content-columns-nitems {
+    margin-top: -5px;
+    margin-right: 0px;
+    /* padding-right: 0px; */
+
+}
 
 
 .scrollable-content {
-  max-height: 90vh; /* Adjust the height as needed */
+  margin-top: -20px;
+  max-height: 100vh; /* Adjust the height as needed */
+  width: 100%;
   overflow-y: auto; /* This will show a scrollbar when the content exceeds 500px */
 }
 
@@ -129,21 +146,6 @@
 .stepper-validation .sf-icon-transport:before { content: "\e702"; }
 .stepper-validation .sf-icon-payment:before { content: "\e706"; }
 .stepper-validation .sf-icon-success:before { content: "\e30a"; } 
-
-
-
-.sidebar-content-columns-items {
-    display: flex;
-    flex-direction: row;
-    gap: 15px;
-    flex-grow: 4;
-    margin-top: 10px;
-    margin-left: 5px;
-}
-
-.sidebar-content-columns-nitems {
-    margin-top: 10px;
-}
 
 
 .e-float-input.textAeraComponent-blue label.e-float-text, 
