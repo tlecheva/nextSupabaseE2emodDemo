@@ -70,9 +70,17 @@
   margin-left: 5px;
   &.is-full-width {
     margin-left: -150px;
-      width: 97%;
-  }
+    width: 96%;
+  };
+
 }
+/* Responsive adjustment for smaller screens */
+@media (max-width: 1500px) {
+  .sidebar-content {
+    width: 84%; /* Full width on smaller screens */
+  };
+};
+
 .sidebar-content-columns-items {
     display: flex;
     flex-direction: row;
