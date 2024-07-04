@@ -1,5 +1,7 @@
 
-@import "../node_modules/@syncfusion/ej2-react-navigations/styles/material.css";
+/* @import "../node_modules/@syncfusion/ej2-react-navigations/styles/material.css"; */
+@import url('@syncfusion/ej2-base/styles/material.css');
+@import url('@syncfusion/ej2-react-navigations/styles/material.css');
 
 /* to avoid text overlapping on menu on top of Gid columns */
 .e-contextmenu-wrapper ul, .e-contextmenu-container ul {
@@ -63,11 +65,12 @@
 }
 
 .sidebar-content {
-  width: 100%;
+  width: 90%;
   height: 100%;
   margin-left: 5px;
   &.is-full-width {
     margin-left: -150px;
+      width: 97%;
   }
 }
 .sidebar-content-columns-items {
@@ -83,16 +86,14 @@
 .sidebar-content-columns-nitems {
     margin-top: -5px;
     margin-right: 0px;
-    /* padding-right: 0px; */
-
 }
 
 
 .scrollable-content {
   margin-top: -20px;
-  max-height: 100vh; /* Adjust the height as needed */
+  max-height: 82vh;  
   width: 100%;
-  overflow-y: auto; /* This will show a scrollbar when the content exceeds 500px */
+  overflow-y: scroll; 
 }
 
 .stepper-validation [class^="sf-icon-"], .stepper-validation [class*=" sf-icon-"] {

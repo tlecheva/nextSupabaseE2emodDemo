@@ -4,6 +4,8 @@ import '@/styles/app.css'
 import '@/styles/AppBar.css'
 import '@/styles/Posts.css'
 import '@/styles/Components.css'
+import '@/styles/MasterScheduleLeftMenu.css'
+
 import Layout from '@/components/Layout'; // Import the missing module
 
 import { SessionContextProvider } from '@supabase/auth-helpers-react'

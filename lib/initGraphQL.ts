@@ -58,7 +58,6 @@ const apolloClient = new ApolloClient({
   link: authLink.concat(httpLink),
   cache,
 })
-console.log("🚀 ~ apolloClient:", apolloClient)
 
 export default apolloClient
 

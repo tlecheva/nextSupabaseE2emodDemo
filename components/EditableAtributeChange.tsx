@@ -27,8 +27,14 @@ const ExtendedTextAreaComponent: React.FC<ExtendedTextAreaComponentProps> = (pro
 };
 
 
-export const EditableAtributeChange = (label: string, attribute: string, width: string, { blue = false, enabled = true }
-    : { blue?: boolean, enabled?: boolean } = {}) => {
+export const EditableAtributeChange = (
+    label: string,
+    attribute: string,
+    width: string,
+    { blue = false, enabled = true }
+        : {
+            blue?: boolean, enabled?: boolean
+        } = {}) => {
     const router = useRouter();
     const query = router.query
     const { change_id } = query

@@ -40,7 +40,10 @@ function SideBarAndContent() {
                     </div>
                     {showSideBar && sideBarTitles.map((sbTitle, i) => (
                         <Typography key={sbTitle.title} variant={"medium"} 
-                            className={`mr-5 ${sbTitle.component ? "hover:bg-blue-500 cursor-pointer" : ""}`} 
+                            className={`mr-5 
+                                ${sbTitle.component ? "hover:bg-blue-500 cursor-pointer" : ""}
+                                ${component === sbTitle.component ? "bg-blue-700" : ""}
+                            `}
                             onClick={sbTitle.component ? onSideBarMenuClick : undefined}>
                             {sbTitle.title}
                         </Typography>
