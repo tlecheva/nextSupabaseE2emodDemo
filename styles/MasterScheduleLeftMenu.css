@@ -1,16 +1,23 @@
 #treeview {
-    height: 100%;
-    width: 5000px; 
-    /* big width to avoid the display of a vertical line, between <PanesDirective />*/
-    border-radius: 3px;
+  height: 100%;
+  width: 5000px;
+  /* big width to avoid the display of a vertical line, between <PanesDirective />*/
+  border-radius: 3px;
 }
 #treeview.e-treeview .e-list-img {
-    width: 25px;
-    height: 25px;
+  width: 25px;
+  height: 25px;
+}
+
+/* to prevent the text from changing to Red when clicking on a treeView item */
+#treeview.e-treeview .e-list-item.e-active > .e-text-content .e-list-text {
+  color: black;
 }
 
 /* #treeview.e-treeview .e-list-icon.folder { background-position: -10px -552px } */
-.e-bigger #treeview.e-treeview .e-list-icon.folder { background-position: -10px -550px; }
+.e-bigger #treeview.e-treeview .e-list-icon.folder {
+  background-position: -10px -550px;
+}
 /* #treeview.e-treeview .e-list-icon.docx { background-position: -10px -20px }
 #treeview.e-treeview .e-list-icon.ppt { background-position: -10px -48px }
 #treeview.e-treeview .e-list-icon.pdf { background-position: -10px -104px }
@@ -21,13 +28,13 @@
 #treeview.e-treeview .e-list-icon.exe { background-position: -10px -412px } */
 
 .e-treeview .e-ul {
-    margin: 0;
-    padding: 0 0 0 0px;
+  margin: 0;
+  padding: 0 0 0 0px;
 }
 
-.e-splitter .e-splitter-horizontal .e-pane.e-pane-horizontal, 
+.e-splitter .e-splitter-horizontal .e-pane.e-pane-horizontal,
 .e-splitter.e-splitter-vertical .e-pane.e-pane-horizontal {
-    overflow: none;
+  overflow: none;
 }
 
 .img-small {

@@ -1,73 +1,80 @@
 {
-    "iconData": [
+  "iconData": [
+    {
+      "nodeId": "01",
+      "nodeText": "N.53.002273-0001",
+      "icon": "FeaturedPlayListOutline",
+      "expanded": true,
+      "nodeChild": [
         {
-            "nodeId": "01",
-            "nodeText": "N.53.002273-0001",
-            "icon": "FeaturedPlayListOutline",
-            "expanded": true,
-            "nodeChild": [
+          "nodeId": "02",
+          "nodeText": "D539.28242.000.51 / SOL / DRA714",
+          "textColor": "red",
+          "image": "DS",
+          "tooltip": "DS in critical path",
+          "expanded": true,
+          "nodeChild": [
+            {
+              "nodeId": "02-01",
+              "nodeText": "D539.28252.000.00 / TL1 / DRA714",
+              "icon": "BuildOutline",
+              "image": "Part",
+              "tooltip": "Buy",
+              "expanded": true,
+              "nodeChild": [
                 {
-                    "nodeId": "02",
-                    "nodeText": "D539.28242.000.51 / SOL / DRA714",
-                    "color": "red",
-                    "image": "DS",
-                    "tooltip": "DS in critical path",
-                    "expanded": true,
-                    "nodeChild": [
-                        {
-                            "nodeId": "02-01",
-                            "nodeText": "D539.28252.000.00 / TL1 / DRA714",
-                            "icon": "BuildOutline",
-                            "image": "Part",
-                            "tooltip": "Part",
-                            "expanded": true,
-                            "nodeChild": [
-                                {
-                                    "nodeId": "03-01",
-                                    "nodeText": "BUY /",
-                                    "color": "red",
-                                    "icon": "OfflineBoltOutline",
-                                    "iconColor": "red",
-                                    "image": "SourcingMakeOrBuy"
-                                }
-                            ]
-                        },
-                        {
-                            "nodeId": "02-01",
-                            "nodeText": "D539.28254.000.00 / TL1 / DRA714",
-                            "icon": "BuildOutline",
-                            "image": "Part",
-                            "tooltip": "Part",
-                            "expanded": true,
-                            "nodeChild": [
-                                {
-                                    "nodeId": "03-01",
-                                    "nodeText": "BUY /",
-                                    "color": "red",
-                                    "icon": "OfflineBoltOutline",
-                                    "iconColor": "red",
-                                    "image": "SourcingMakeOrBuy"
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "nodeId": "03",
-                    "nodeText": "D531.13410.200.03 / TLG / DRA714",
-                    "image": "Part",
-                    "tooltip": "Part",
-                    "expanded": true,
-                    "nodeChild": [
-                        {
-                            "nodeId": "03-01",
-                            "nodeText": "MAKE /",
-                            "color": "red",
-                            "image": "SourcingMakeOrBuy"
-                        }
-                    ]
+                  "nodeId": "03-01",
+                  "nodeText": "BUY / Post_source_name",
+                  "textColor": "red",
+                  "icon": "OfflineBoltOutline",
+                  "iconColor": "sandybrown",
+                  "image": "SourcingMakeOrBuy"
                 }
-            ]
+              ]
+            },
+            {
+              "nodeId": "02-01",
+              "nodeText": "D539.28254.000.00 / TL1 / DRA714",
+              "icon": "BuildOutline",
+              "image": "Part",
+              "tooltip": "Buy",
+              "expanded": true,
+              "nodeChild": [
+                {
+                  "nodeId": "03-01",
+                  "nodeText": "BUY /",
+                  "textColor": "red",
+                  "icon": "OfflineBoltOutline",
+                  "iconColor": "sandybrown",
+                  "image": "SourcingMakeOrBuy"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nodeId": "03",
+          "nodeText": "D531.13410.200.03 / TLG / DRA714",
+          "image": "Part",
+          "tooltip": "Make",
+          "expanded": true,
+          "nodeChild": [
+            {
+              "nodeId": "03-01",
+              "nodeText": "MAKE /",
+              "textColor": "red",
+              "image": "SourcingMakeOrBuy"
+            }
+          ]
         }
-    ]
+      ]
+    },
+    {
+      "nodeId": "01",
+      "nodeText": "DS1 Manuf / CD2 / DRA702",
+      "icon": "Warning",
+      "iconColor": "sandybrown",
+      "tooltip": "SCHEDULE_ARTICLE_ERROR_message"
+    }
+  ]
 }
