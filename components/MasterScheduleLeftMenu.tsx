@@ -1,38 +1,41 @@
 import * as React from 'react';
 import { TreeViewComponent } from '@syncfusion/ej2-react-navigations';
-import { Event, CalendarViewDayOutline } from "@airbus/icons/react";
+import { Warning, FeaturedPlayListOutline, FeaturedPlayList, OfflineBoltOutline, OfflineBolt, Build, BuildOutline } from "@airbus/icons/react";
 
 import * as dataSource from './MasterScheduleLeftMenuData.json';
+import Image from 'next/image';
 export const MasterScheduleLeftMenu = () => {
     const data = dataSource;
-    const fields = { dataSource: data.iconData, id: 'nodeId', text: 'nodeText', child: 'nodeChild', iconCss: 'icon', imageUrl: 'image' };
-    // const treeData = [
-    //     { id: 1, name: 'Item 1', icon: 'icon-class-1' },
-    //     { id: 2, name: 'Item 2', icon: 'icon-class-2' },
-    //     // Add more nodes as needed
-    // ];
-    const getNodeIcon = (iconName) => {
-        // This function should return the appropriate Airbus icon component
-        // based on the iconName or other criteria.
-        // This is a placeholder function. You'll need to implement the logic
-        // to return the correct icon component.
-        return <CalendarViewDayOutline />;
+    const fields = { dataSource: data.iconData, id: 'nodeId', text: 'nodeText', child: 'nodeChild' };
+    const iconMapping = { Warning, FeaturedPlayListOutline, FeaturedPlayList, OfflineBoltOutline, OfflineBolt, Build, BuildOutline }
+
+    const getNodeIcon = (iconName: string, color: string) => {
+        // Get the component from the mapping object using the iconName
+        const IconComponent = iconMapping[iconName];
+
+        // Check if the IconComponent exists to avoid rendering errors
+        if (!IconComponent) {
+            console.warn(`Icon "${iconName}" not found.`);
+            return null; // or return a default icon
+        }
+        return <IconComponent className={"w-[21px] h-[30px] " + color} />;
     };
+
     const nodeTemplate = (data) => {
-        console.log("🚀 ~ nodeTemplate ~ data:", data)
+        const image = "/" + data.image + ".png"
+        const className = data.color ? 'text-' + data.color + '-500' : 'text-black';
+        const iconColor = data.iconColor ? 'text-' + data.iconColor + '-500' : '';
         return (
-            <div className='w-1000'>
-                {getNodeIcon(data.icon)}
-                <span>{data.name}</span>
+            <div className='flex gap-2'>
+                {data.icon && getNodeIcon(data.icon, iconColor)}
+                {
+                    // eslint-disable-next-line @next/next/no-img-element
+                    data.image && <img src={image} alt={data.image} className="img-small" />
+                }
+                <span className={className}>{data.nodeText}</span>
             </div>
         );
     };
-    // return (
-    //     <TreeViewComponent
-    //         fields={{ dataSource: treeData, id: 'id', text: 'name', child: 'subItems' }}
-    //         nodeTemplate={nodeTemplate}
-    //     />
-    // );
     return (
         <TreeViewComponent id="treeview" fields={fields} nodeTemplate={nodeTemplate} />
     )

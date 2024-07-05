@@ -19,7 +19,6 @@ interface ExtendedTextAreaComponentProps {
 }
 
 // Create a functional component that wraps the original TextAreaComponent
-
 const ExtendedTextAreaComponent: React.FC<ExtendedTextAreaComponentProps> = (props) => {
     return (
         <TextAreaComponent {...props} />

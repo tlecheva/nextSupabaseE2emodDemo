@@ -75,7 +75,7 @@
 
 }
 /* Responsive adjustment for smaller screens */
-@media (max-width: 1500px) {
+@media (max-width: 1930px) {
   .sidebar-content {
     width: 84%; /* Full width on smaller screens */
   };
@@ -102,6 +102,11 @@
   max-height: 82vh;  
   width: 100%;
   overflow-y: scroll; 
+}
+
+.e-splitter .e-split-bar.e-split-bar-horizontal {
+    align-items: baseline;
+    padding-top: 10px;
 }
 
 .stepper-validation [class^="sf-icon-"], .stepper-validation [class*=" sf-icon-"] {
