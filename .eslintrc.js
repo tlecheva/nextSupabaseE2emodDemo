@@ -1,14 +1,29 @@
 module.exports = 
 {
-  "extends": "next/core-web-vitals",
+  "extends": ["next/core-web-vitals",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "prettier"
+  ],
   "rules": {
-    "react/jsx-one-expression-per-line": "off",
-    "react/jsx-max-props-per-line": [
-      1,
-      {
-        "maximum": 6
-      }
-    ]
+    "prettier/prettier": "error"
+  },
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   }
 }
 

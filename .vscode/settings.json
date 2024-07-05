@@ -1,9 +1,30 @@
 {
-  "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
-  "editor.formatOnType": false, // required
-  "editor.formatOnPaste": true, // optional
-  "editor.formatOnSave": true, // optional
-  "editor.formatOnSaveMode": "modifications", // required to format on save
-  "files.autoSave": "onFocusChange", // optional but recommended
-  "vs-code-prettier-eslint.prettierLast": false // set as "true" to run 'prettier' last not first
+    "workbench.colorTheme": "Default Dark Modern",
+    "editor.formatOnPaste": true,
+    "eslint.format.enable": true,
+    "eslint.codeActionsOnSave.rules": null,
+    "editor.multiCursorModifier": "ctrlCmd",
+    "git.autofetch": true,
+    "security.allowedUNCHosts": [
+        "wsl.localhost"
+    ],
+    "[typescriptreact]": {
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true
+    },
+    "files.associations": {
+        "*.css": "tailwindcss"
+    },
+    "editor.quickSuggestions": {
+        "strings": "on"
+    },
+    "tailwindCSS.emmetCompletions": true,
+    "security.workspace.trust.untrustedFiles": "open",
+    "github.copilot.editor.enableAutoCompletions": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "evenBetterToml.formatter.columnWidth": 40,
+    "editor.formatOnSave": true,
+    "remote.SSH.remotePlatform": {
+        "E2EMod-V2": "linux"
+    }
 }
