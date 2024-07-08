@@ -27,7 +27,14 @@ interface NodeSelectArgs {
   };
 }
 
-export const MasterScheduleLeftMenu = () => {
+type SelectionCallbackType = (param1: string) => void;
+type ObjectSelectionCallbackType = {
+  selectionCallback: SelectionCallbackType;
+  // other properties
+};
+export const MasterScheduleLeftMenu = ({
+  selectionCallback,
+}: ObjectSelectionCallbackType) => {
   const treeViewRef = React.useRef(null);
   const data = dataSource;
   const fields = {
@@ -51,8 +58,7 @@ export const MasterScheduleLeftMenu = () => {
   const handleNodeSelect = (args: NodeSelectArgs) => {
     // Assuming args has a node or item property that gives you the selected node's details
     const selectedNode = args.nodeData;
-    console.log('Selected node text:', selectedNode.text);
-    // You can access other properties of the node as needed
+    selectionCallback(selectedNode.text);
   };
 
   const getNodeIcon = (iconName: string, color: string | undefined) => {
@@ -82,7 +88,6 @@ export const MasterScheduleLeftMenu = () => {
           )
         }
         <span style={{ color: data.textColor }}>{data.nodeText}</span>
-        {/* <span>{data.nodeText}</span> */}
       </div>
     );
   };

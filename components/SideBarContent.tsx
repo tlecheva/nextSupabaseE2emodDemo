@@ -2,6 +2,7 @@ import * as React from 'react';
 import { PhaseAndStatusStepper } from './PhaseAndStatusStepper';
 import { EditChangeTabs } from './EditChangeTabs';
 import { EditableAtributeChange } from './EditableAtributeChange';
+import { MasterSchedule as MasterScheduleOrig } from './MasterScheduleOrig';
 import { MasterSchedule } from './MasterSchedule';
 import { MasterScheduleEdit } from './MasterScheduleEdit';
 import { Stack, Tab, Tabs } from '@airbus/components-react';
@@ -14,10 +15,21 @@ import {
 
 const Schedule = () => {
   const [selectedTab, setSelectedTab] = React.useState(0);
-  const tabs = ['V1 Gantt', 'V2 Gantt Editable'];
+  const [selection, setSelection] = React.useState<string>(0);
+  const tabs = ['V1 Gantt Edit', 'V1 Gantt Orig.', 'V2 Gantt Editable'];
+  const tabsComponents: { [key: number]: React.ElementType } = {
+    0: MasterSchedule,
+    1: MasterScheduleOrig,
+    2: MasterScheduleEdit,
+  };
+  const CurrentTabComponent = tabsComponents[selectedTab];
 
   const onChange = (value: number) => {
     setSelectedTab(value);
+  };
+
+  const selectionCallback = (value: string) => {
+    setSelection(value);
   };
 
   return (
@@ -39,12 +51,15 @@ const Schedule = () => {
         <PanesDirective>
           <PaneDirective
             size="20%"
-            content={() => <MasterScheduleLeftMenu />}
+            content={() => (
+              <MasterScheduleLeftMenu selectionCallback={selectionCallback} />
+            )}
           />
           <PaneDirective
-            content={() =>
-              selectedTab === 0 ? <MasterSchedule /> : <MasterScheduleEdit />
-            }
+            content={() => (
+              // selectedTab === 0 ? <MasterSchedule /> : <MasterScheduleEdit />
+              <CurrentTabComponent selection={selection} />
+            )}
           />
         </PanesDirective>
       </SplitterComponent>
