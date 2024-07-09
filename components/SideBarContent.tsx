@@ -15,7 +15,7 @@ import {
 
 const Schedule = () => {
   const [selectedTab, setSelectedTab] = React.useState(0);
-  const [selection, setSelection] = React.useState<string>(0);
+  const [selection, setSelection] = React.useState<string>('');
   const tabs = ['V1 Gantt Edit', 'V1 Gantt Orig.', 'V2 Gantt Editable'];
   const tabsComponents: { [key: number]: React.ElementType } = {
     0: MasterSchedule,
@@ -79,22 +79,45 @@ export const SideBarContent = ({
       className={`sidebar-content${showSideBar ? '' : ' is-full-width'}`}
     >
       <div className="sidebar-content-columns-items mb-10">
-        {EditableAtributeChange('CR/Context', 'cr_context', '20%', {
-          enabled: false,
-        })}
-        {EditableAtributeChange('MP#', 'mp', '10%')}
-        {EditableAtributeChange('MOD#', 'mod', '10%')}
-        {EditableAtributeChange('MOD Title', 'title', '60%')}
+        <EditableAtributeChange
+          label="CR/Context"
+          attribute="cr_context"
+          width="20%"
+          enabled={false}
+        />
+        <EditableAtributeChange label="MP#" attribute="mp" width="10%" />
+        <EditableAtributeChange label="MOD#" attribute="mod" width="10%" />
+        <EditableAtributeChange
+          label="MOD Title"
+          attribute="title"
+          width="60%"
+        />
       </div>
       <div className="scrollable-content pr-5">
         <div className="sidebar-content-columns-items sidebar-content-columns-nitems">
-          {EditableAtributeChange('POE Conf', 'poe_conf', '15%')}
-          {EditableAtributeChange('First MSN Manufactured', '', '17%')}
+          <EditableAtributeChange
+            label="POE Conf"
+            attribute="poe_conf"
+            width="15%"
+          />
+          <EditableAtributeChange
+            label="First MSN Manufactured"
+            attribute=""
+            width="17%"
+          />
           <span className="inline-block w-1/12" />
-          {EditableAtributeChange('MOD Opening', 'opening', '30%', {
-            blue: true,
-          })}
-          {EditableAtributeChange('Scope', 'scope', '30%', { blue: true })}
+          <EditableAtributeChange
+            label="MOD Opening"
+            attribute="opening"
+            width="30%"
+            blue
+          />
+          <EditableAtributeChange
+            label="Scope"
+            attribute="scope"
+            width="30%"
+            blue
+          />
         </div>
         <PhaseAndStatusStepper />
         {component === 'Attributes' ? <EditChangeTabs /> : <Schedule />}

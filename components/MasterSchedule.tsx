@@ -1,3 +1,4 @@
+import { useState, useRef, useEffect } from 'react';
 import {
   GanttComponent,
   Inject,
@@ -6,11 +7,15 @@ import {
   Sort,
   Selection,
   Toolbar,
+  Resize,
 } from '@syncfusion/ej2-react-gantt';
 import { projectResources, dataRaw } from './MasterScheduleData';
 
 export function MasterSchedule({ selection }: { selection: string }) {
-  let ganttInstance: GanttComponent | null;
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const ganttRef = useRef(null);
+
+  // let ganttInstance: GanttComponent | null;
   const taskFields: any = {
     id: 'TaskID',
     name: 'TaskName',
@@ -56,7 +61,6 @@ export function MasterSchedule({ selection }: { selection: string }) {
     }
   }
   function rowDataBound(args: any) {
-    // args.data
     const color = args.data.taskData.Color;
     const cells = args.row.querySelectorAll('td.e-rowcell');
     if (cells.length > 1) {
@@ -66,13 +70,82 @@ export function MasterSchedule({ selection }: { selection: string }) {
   }
   const toolbarOptions = ['ZoomIn', 'ZoomOut', 'ZoomToFit'];
   function dataBound(args: any) {
-    if (ganttInstance) ganttInstance.fitToProject();
+    if (ganttRef.current) (ganttRef.current as GanttComponent).fitToProject();
   }
+
+  // useEffect(() => {
+  //   // Simulate data loading
+  //   // loadData().then(() => {
+  //   // Initialize Gantt chart or perform operations that depend on loaded data
+  //   // });
+  //   setIsDataLoaded(true);
+  //   // Initialize Gantt chart or perform operations that depend on loaded data
+
+  //   const handleResize = () => {
+  //     setIsDataLoaded(true);
+  //     ganttRef.current.style.height = `${window.innerHeight * 0.75}px`;
+
+  //     // console.log(
+  //     //   '🚀 ~ handleResize ~ handleResize ganttInstance',
+  //     //   handleResize,
+  //     //   ganttInstance,
+  //     // );
+  //     // if (ganttRef.current && isDataLoaded) {
+  //     //   // Safely call methods on your Gantt instance
+  //     //   ganttRef.current.windowResize();
+  //     //   loadData().then(() => {
+  //     //     setIsDataLoaded(false);
+  //     //     // Initialize Gantt chart or perform operations that depend on loaded data
+  //     //   });
+  //     // }
+  //     if (ganttRef.current) {
+  //       // Safely call methods on your Gantt instance
+  //       ganttRef.current.windowResize();
+  //       loadData().then(() => {
+  //         setIsDataLoaded(false);
+  //         // Initialize Gantt chart or perform operations that depend on loaded data
+  //       });
+  //     }
+  //   };
+
+  //   window.addEventListener('resize', handleResize);
+
+  //   return () => {
+  //     window.removeEventListener('resize', handleResize);
+  //   };
+  // }, []);
+  // async function loadData() {
+  //   // Your data loading logic here
+  //   return new Promise(resolve => setTimeout(resolve, 1000)); // Example delay
+  // }
+  // if (!isDataLoaded) return <p>'Gantt Loading...'</p>;
+  useEffect(() => {
+    const handleResize = () => {
+      // console.log('🚀 ~ handleResize ~ ganttRef.current:', ganttRef.current);
+      if (ganttRef.current) {
+        // Example: Set the height to 75% of the window height
+        // ganttRef.current.style.height = `${window.innerHeight * 0.75}px`;
+      }
+    };
+
+    // Set initial height
+    handleResize();
+
+    // Add resize event listener
+    window.addEventListener('resize', handleResize); // to avoid console.log Gantt error when resizing window
+
+    // Cleanup function to remove event listener
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []); // Empty dependency array means this effect runs once on mount and cleanup on unmount
+
   return (
     <div className="ml-5">
       <h2>{selection ? selection : 'Export CM track'}</h2>
+      {/* <ErrorBoundary> */}
       <GanttComponent
-        ref={gantt => (ganttInstance = gantt)}
+        ref={ganttRef}
         dataBound={dataBound}
         dataSource={dataRaw}
         toolbar={toolbarOptions}
@@ -86,9 +159,11 @@ export function MasterSchedule({ selection }: { selection: string }) {
         editSettings={editSettings}
         resourceFields={resourceFields}
         resources={projectResources}
+        allowResizing={true}
       >
-        <Inject services={[Edit, Filter, Selection, Sort, Toolbar]} />
+        <Inject services={[Edit, Filter, Selection, Sort, Toolbar, Resize]} />
       </GanttComponent>
+      {/* </ErrorBoundary> */}
     </div>
   );
 }

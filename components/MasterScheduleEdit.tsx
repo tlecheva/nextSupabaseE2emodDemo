@@ -156,6 +156,7 @@ export const MasterScheduleEdit = () => {
           </EventMarkersDirective>
           <Inject services={[Edit, Selection, Toolbar, DayMarkers]} />
         </GanttComponent>
+
         <div style={{ float: 'right', margin: '10px' }}>
           Source:
           <a href="https://en.wikipedia.org/wiki/Construction" target="_blank">
