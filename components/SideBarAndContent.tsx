@@ -73,6 +73,7 @@ function SideBarAndContent() {
                 onClick={onClickMenuSidebar}
               >
                 <ChevronLeftIcon />
+                {/* {!stickySideBar ? <ChevronRightIcon /> : <ChevronLeftIcon />} */}
               </IconButton>
               <IconButton
                 onClick={onClickSticky}
@@ -81,7 +82,7 @@ function SideBarAndContent() {
                 tooltip="Sticky sidebar"
               >
                 {!stickySideBar && <ChevronRightIcon />}
-                <MenuIcon />
+                {/* <MenuIcon /> */}
               </IconButton>
             </div>
 
