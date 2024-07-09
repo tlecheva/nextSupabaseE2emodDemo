@@ -1,41 +1,39 @@
-
 /* @import "../node_modules/@syncfusion/ej2-react-navigations/styles/material.css"; */
 @import url('@syncfusion/ej2-base/styles/material.css');
 @import url('@syncfusion/ej2-react-navigations/styles/material.css');
 
 /* to avoid text overlapping on menu on top of Gid columns */
-.e-contextmenu-wrapper ul, .e-contextmenu-container ul {
-    min-width: 220px;
+.e-contextmenu-wrapper ul,
+.e-contextmenu-container ul {
+  min-width: 220px;
 }
 
 .e-popup.e-popup-open.e-dialog {
-    margin-left: 135px    /* left: 50px; */
+  margin-left: 135px; /* left: 50px; */
 }
 
 /* This will place the drop area to the right of the 'Columns menu' in a GridComponent table */
 /* You may need to remove that if it affects othert drag & drop components */
 .e-grid .e-groupdroparea,
 .e-grid .e-groupdroparea .e-grouped .e-hover {
-    position: absolute !important;
-    top: 0;
-    left: 900px !important;
-    right: 900px !important;
-    padding-left: 15px !important;
-    text-align: left !important;
-    z-index: 10 !important;
-    width: 28vw !important;
+  position: absolute !important;
+  top: 0;
+  left: 900px !important;
+  right: 900px !important;
+  padding-left: 15px !important;
+  text-align: left !important;
+  z-index: 10 !important;
+  width: 28vw !important;
 }
 .e-gridcontent {
-    overflow-x: auto;
+  overflow-x: auto;
 }
-
 
 /* On the GridComponent with allowPaging, this will place the mention '1 of 10 pages (345 items) */
 .e-pager div.e-parentmsgbar {
-    float: left !important;
-    margin-right: 80px;
+  float: left !important;
+  margin-right: 80px;
 }
-
 
 .sidebar-container {
   position: fixed;
@@ -49,19 +47,28 @@
 .sidebar-items {
   flex: 1 0 200px;
   background-color: #00205b;
-  color:aliceblue;
+  color: aliceblue;
   height: 100%;
   padding-left: 10px;
   height: 100vh;
   &.sidebar-collapsed {
-      transform: translateX(-80%);
-  } 
+    transform: translateX(-80%);
+  }
 }
 
 .sidebar-items-right-aligned {
-    display: flex;
-    justify-content: flex-end;
-    margin-right: 4px
+  display: flex;
+  flex-direction: column;
+  /* justify-content: flex-end; */
+  align-items: flex-end;
+  margin-right: 4px;
+}
+
+.sidebar-vertical-text {
+  writing-mode: vertical-rl;
+  padding-top: 20px;
+  padding-right: 5px;
+  text-orientation: upright;
 }
 
 .sidebar-content {
@@ -71,45 +78,44 @@
   &.is-full-width {
     margin-left: -150px;
     width: 96%;
-  };
-
+  }
 }
 /* Responsive adjustment for smaller screens */
 @media (max-width: 1930px) {
   .sidebar-content {
     width: 84%; /* Full width on smaller screens */
-  };
-};
+  }
+}
 
 .sidebar-content-columns-items {
-    display: flex;
-    flex-direction: row;
-    gap: 15px;
-    flex-grow: 4;
-    margin-top: 10px;
-    margin-left: 5px;
-    margin-right: 40px;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  flex-grow: 4;
+  margin-top: 10px;
+  margin-left: 5px;
+  margin-right: 40px;
 }
 
 .sidebar-content-columns-nitems {
-    margin-top: -5px;
-    margin-right: 0px;
+  margin-top: -5px;
+  margin-right: 0px;
 }
-
 
 .scrollable-content {
   margin-top: -20px;
-  max-height: 82vh;  
+  max-height: 82vh;
   width: 100%;
-  overflow-y: scroll; 
+  overflow-y: scroll;
 }
 
 .e-splitter .e-split-bar.e-split-bar-horizontal {
-    align-items: baseline;
-    padding-top: 10px;
+  align-items: baseline;
+  padding-top: 10px;
 }
 
-.stepper-validation [class^="sf-icon-"], .stepper-validation [class*=" sf-icon-"] {
+.stepper-validation [class^='sf-icon-'],
+.stepper-validation [class*=' sf-icon-'] {
   font-family: 'Default' !important;
   font-style: normal;
   font-weight: normal;
@@ -126,13 +132,13 @@
   padding-right: 20%;
 }
 .stepper-template-content {
-    text-align: '-webkit-center'
+  text-align: '-webkit-center';
 }
 
 .e-stepper .e-stepper-progressbar {
-    /* margin: 15px; */
-    margin-right: 25px;
-    height: 2.9px;
+  /* margin: 15px; */
+  margin-right: 25px;
+  height: 2.9px;
 }
 
 .stepper-template .e-step-completed * {
@@ -156,35 +162,44 @@
   font-style: normal;
 }
 
-.stepper-validation .sf-icon-cart:before { content: "\e710"; }
-.stepper-validation .sf-icon-transport:before { content: "\e702"; }
-.stepper-validation .sf-icon-payment:before { content: "\e706"; }
-.stepper-validation .sf-icon-success:before { content: "\e30a"; } 
+.stepper-validation .sf-icon-cart:before {
+  content: '\e710';
+}
+.stepper-validation .sf-icon-transport:before {
+  content: '\e702';
+}
+.stepper-validation .sf-icon-payment:before {
+  content: '\e706';
+}
+.stepper-validation .sf-icon-success:before {
+  content: '\e30a';
+}
 
-
-.e-float-input.textAeraComponent-blue label.e-float-text, 
-.e-float-input.textAeraComponent-blue input:focus ~ label.e-float-text, 
+.e-float-input.textAeraComponent-blue label.e-float-text,
+.e-float-input.textAeraComponent-blue input:focus ~ label.e-float-text,
 .e-float-input.textAeraComponent-blue input:valid ~ label.e-float-text {
-    color: blue !important
+  color: blue !important;
 }
 
 /* This will make the label bold when the input is focused or has a value */
-.e-float-input label.e-float-text, 
-.e-float-input input:focus ~ label.e-float-text, 
+.e-float-input label.e-float-text,
+.e-float-input input:focus ~ label.e-float-text,
 .e-float-input input:valid ~ label.e-float-text {
-    font-weight: 600  !important;;
+  font-weight: 600 !important;
 }
 
-.e-menu-wrapper ul .e-menu-item, .e-menu-container ul .e-menu-item {
-    height: 32px;
-    line-height: 32px;
+.e-menu-wrapper ul .e-menu-item,
+.e-menu-container ul .e-menu-item {
+  height: 32px;
+  line-height: 32px;
 }
 
-
-.e-menu-wrapper.e-popup.e-menu-popup, .e-menu-container.e-popup.e-menu-popup {
-    border-radius: 5px; /* Adjust as needed */
+.e-menu-wrapper.e-popup.e-menu-popup,
+.e-menu-container.e-popup.e-menu-popup {
+  border-radius: 5px; /* Adjust as needed */
 }
 
-.e-menu-wrapper ul .e-menu-item, .e-menu-container ul .e-menu-item {
-    border-radius: 5px; /* Adjust as needed */
+.e-menu-wrapper ul .e-menu-item,
+.e-menu-container ul .e-menu-item {
+  border-radius: 5px; /* Adjust as needed */
 }
