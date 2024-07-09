@@ -5,26 +5,21 @@ import {
   Typography,
 } from '@airbus/components-react';
 import {
-  Menu as MenuIcon,
-  ArrowLeft as ArrowLeftIcon,
   Chevronleft as ChevronLeftIcon,
   Chevronright as ChevronRightIcon,
-  PlaylistAddCheck as PlaylistAddCheckIcon,
 } from '@airbus/icons/react';
 
 import { SideBarContent } from './SideBarContent';
 
 function SideBarAndContent() {
-  const sideBarTitles =
-    //['Attributes', 'Multi-standard', 'Sketches & Comments', '..', 'Master Schedule', '..etc..']
-    [
-      { title: 'Attributes', component: 'Attributes' },
-      { title: 'Multi-standard' },
-      { title: 'Sketches & Comments' },
-      { title: '...' },
-      { title: 'Master Schedule', component: 'MasterSchedule' },
-      { title: '..etc.' },
-    ];
+  const sideBarTitles = [
+    { title: 'Attributes', component: 'Attributes' },
+    { title: 'Multi-standard' },
+    { title: 'Sketches & Comments' },
+    { title: '...' },
+    { title: 'Master Schedule', component: 'MasterSchedule' },
+    { title: '..etc.' },
+  ];
   const [showSideBar, setShowSideBar] = React.useState<boolean>(true);
   const [stickySideBar, setStickySideBar] = React.useState<boolean>(false);
   const [component, setComponent] = React.useState<string>(
@@ -67,25 +62,26 @@ function SideBarAndContent() {
           <div className="sidebar-items-right-aligned flex-col">
             <div className="flex">
               <IconButton
-                variant="ghost"
-                aria-label="Search"
-                tooltip="Sticky sidebar"
-                onClick={onClickMenuSidebar}
-              >
-                <ChevronLeftIcon />
-                {/* {!stickySideBar ? <ChevronRightIcon /> : <ChevronLeftIcon />} */}
-              </IconButton>
-              <IconButton
                 onClick={onClickSticky}
                 variant="ghost"
                 aria-label="Menu"
                 tooltip="Sticky sidebar"
+                disabled={stickySideBar}
               >
                 {!stickySideBar && <ChevronRightIcon />}
-                {/* <MenuIcon /> */}
               </IconButton>
+              {!showSideBar ||
+                (stickySideBar && (
+                  <IconButton
+                    variant="ghost"
+                    aria-label="Search"
+                    tooltip="Sticky sidebar"
+                    onClick={onClickMenuSidebar}
+                  >
+                    <ChevronLeftIcon />
+                  </IconButton>
+                ))}
             </div>
-
             {!showSideBar && (
               <div className="sidebar-vertical-text">{title}</div>
             )}

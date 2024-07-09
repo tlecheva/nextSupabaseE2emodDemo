@@ -59,15 +59,14 @@
 .sidebar-items-right-aligned {
   display: flex;
   flex-direction: column;
-  /* justify-content: flex-end; */
   align-items: flex-end;
   margin-right: 4px;
 }
 
 .sidebar-vertical-text {
   writing-mode: vertical-rl;
-  padding-top: 20px;
-  padding-right: 5px;
+  padding-top: 9px;
+  padding-right: 8px;
   text-orientation: upright;
 }
 
