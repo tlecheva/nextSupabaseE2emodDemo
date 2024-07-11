@@ -32,6 +32,10 @@
   padding: 0 0 0 0px;
 }
 
+.gantt-challenged-task-row {
+  background-color: lightgoldenrodyellow !important; /* Light color for left pane */
+}
+
 .e-splitter .e-splitter-horizontal .e-pane.e-pane-horizontal,
 .e-splitter.e-splitter-vertical .e-pane.e-pane-horizontal {
   overflow: none;

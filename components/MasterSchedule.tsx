@@ -10,12 +10,12 @@ import {
   Resize,
 } from '@syncfusion/ej2-react-gantt';
 import { projectResources, dataRaw } from './MasterScheduleData';
+import { ColumnDirective, ColumnsDirective } from '@syncfusion/ej2-react-grids';
 
 export function MasterSchedule({ selection }: { selection: string }) {
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const ganttRef = useRef(null);
 
-  // let ganttInstance: GanttComponent | null;
   const taskFields: any = {
     id: 'TaskID',
     name: 'TaskName',
@@ -26,6 +26,8 @@ export function MasterSchedule({ selection }: { selection: string }) {
     child: 'subtasks',
     dependency: 'Predecessor',
     resourceInfo: 'resources',
+    baselineStartDate: 'BaselineStartDate',
+    baselineEndDate: 'BaselineEndDate',
   };
 
   const editSettings: any = {
@@ -62,88 +64,72 @@ export function MasterSchedule({ selection }: { selection: string }) {
   }
   function rowDataBound(args: any) {
     const color = args.data.taskData.Color;
+    const taskName = args.data.taskData.TaskName;
     const cells = args.row.querySelectorAll('td.e-rowcell');
     if (cells.length > 1) {
       cells[1].style.color = color; // Color for taskName
       cells[1].style.fontSize = 'Medium';
     }
+    if (args.data.taskData.TaskName?.includes('Challenged')) {
+      args.row.classList.add('gantt-challenged-task-row');
+    }
   }
-  const toolbarOptions = ['ZoomIn', 'ZoomOut', 'ZoomToFit'];
+
+  const CHALENGED = 'Challenged';
+
+  const queryTaskbarInfo = args => {
+    let taskName = args.data.TaskName;
+    if (taskName.includes(CHALENGED)) {
+      // taskName = '__ ' + CHALENGED + '__';
+      // args.data.TaskName = '__' + CHALENGED + '__';
+      const rowElement = args.rowElement;
+      const chartRowElement = rowElement.closest('.e-chart-row');
+      chartRowElement.style.backgroundColor = 'lightgoldenrodyellow'; // Change 'red' to your desired color
+    }
+  };
+
+  const toolbarOptions = [
+    'ZoomIn',
+    'ZoomOut',
+    'ZoomToFit',
+    'ExpandAll',
+    'CollapseAll',
+  ];
+
   function dataBound(args: any) {
     if (ganttRef.current) (ganttRef.current as GanttComponent).fitToProject();
   }
 
-  // useEffect(() => {
-  //   // Simulate data loading
-  //   // loadData().then(() => {
-  //   // Initialize Gantt chart or perform operations that depend on loaded data
-  //   // });
-  //   setIsDataLoaded(true);
-  //   // Initialize Gantt chart or perform operations that depend on loaded data
-
-  //   const handleResize = () => {
-  //     setIsDataLoaded(true);
-  //     ganttRef.current.style.height = `${window.innerHeight * 0.75}px`;
-
-  //     // console.log(
-  //     //   '🚀 ~ handleResize ~ handleResize ganttInstance',
-  //     //   handleResize,
-  //     //   ganttInstance,
-  //     // );
-  //     // if (ganttRef.current && isDataLoaded) {
-  //     //   // Safely call methods on your Gantt instance
-  //     //   ganttRef.current.windowResize();
-  //     //   loadData().then(() => {
-  //     //     setIsDataLoaded(false);
-  //     //     // Initialize Gantt chart or perform operations that depend on loaded data
-  //     //   });
-  //     // }
-  //     if (ganttRef.current) {
-  //       // Safely call methods on your Gantt instance
-  //       ganttRef.current.windowResize();
-  //       loadData().then(() => {
-  //         setIsDataLoaded(false);
-  //         // Initialize Gantt chart or perform operations that depend on loaded data
-  //       });
-  //     }
-  //   };
-
-  //   window.addEventListener('resize', handleResize);
-
-  //   return () => {
-  //     window.removeEventListener('resize', handleResize);
-  //   };
-  // }, []);
-  // async function loadData() {
-  //   // Your data loading logic here
-  //   return new Promise(resolve => setTimeout(resolve, 1000)); // Example delay
-  // }
-  // if (!isDataLoaded) return <p>'Gantt Loading...'</p>;
+  // To prevent Gantt popup error due to unknow gant height
   useEffect(() => {
     const handleResize = () => {
-      // console.log('🚀 ~ handleResize ~ ganttRef.current:', ganttRef.current);
       if (ganttRef.current) {
-        // Example: Set the height to 75% of the window height
-        // ganttRef.current.style.height = `${window.innerHeight * 0.75}px`;
+        console.log(
+          '🚀 ~ handleResize ~ anttRef.current.height:',
+          ganttRef.current?.height,
+        );
+        if (!ganttRef.current.height)
+          ganttRef.current.height = `${window.innerHeight + 200}px `;
+        setIsDataLoaded(true);
+      } else {
+        setIsDataLoaded(false);
+        setTimeout(() => {
+          setIsDataLoaded(true);
+        }, 200);
       }
     };
 
-    // Set initial height
     handleResize();
-
-    // Add resize event listener
-    window.addEventListener('resize', handleResize); // to avoid console.log Gantt error when resizing window
-
-    // Cleanup function to remove event listener
+    window.addEventListener('resize', handleResize);
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []); // Empty dependency array means this effect runs once on mount and cleanup on unmount
+  }, []);
+  if (!isDataLoaded) return <p>'Gantt Loading...'</p>;
 
   return (
     <div className="ml-5">
       <h2>{selection ? selection : 'Export CM track'}</h2>
-      {/* <ErrorBoundary> */}
       <GanttComponent
         ref={ganttRef}
         dataBound={dataBound}
@@ -160,10 +146,24 @@ export function MasterSchedule({ selection }: { selection: string }) {
         resourceFields={resourceFields}
         resources={projectResources}
         allowResizing={true}
+        renderBaseline={true}
+        baselineColor="yellow"
+        queryTaskbarInfo={queryTaskbarInfo}
       >
+        <ColumnsDirective>
+          <ColumnDirective field="TaskID" headerText="Id" />
+          <ColumnDirective
+            field="TaskName"
+            headerText="Task Name"
+            width="250"
+          />
+          <ColumnDirective field="StartDate" headerText="Start Date" />
+          <ColumnDirective field="EndDate" headerText="End Date" />
+          <ColumnDirective field="Duration" headerText="Duration" />
+          <ColumnDirective field="Progress" headerText="Progress" />
+        </ColumnsDirective>
         <Inject services={[Edit, Filter, Selection, Sort, Toolbar, Resize]} />
       </GanttComponent>
-      {/* </ErrorBoundary> */}
     </div>
   );
 }
