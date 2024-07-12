@@ -27,6 +27,33 @@ function SideBarAndContent() {
   );
   const [title, setTitle] = React.useState<string>(sideBarTitles[0].title);
 
+  // to add a delay before opening the sidebar
+  const [isHovering, setIsHovering] = React.useState(false);
+  const hoverTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+
+  const handleMouseEnter = () => {
+    // Clear any existing timeout
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+
+    // Set a new timeout to trigger the hover action after few ms
+    hoverTimeoutRef.current = setTimeout(() => {
+      setIsHovering(true);
+      onHoveringOnClosedSidebar();
+    }, 400);
+  };
+
+  const handleMouseLeave = () => {
+    // Clear the timeout if the user leaves the sidebar before 200ms
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+    onLeavingOpenSidebar();
+    setIsHovering(false);
+  };
+  // end to add a delay before opening the sidebar
+
   const onClickMenuSidebar = () => {
     setShowSideBar(!showSideBar);
     setStickySideBar(false);
@@ -55,8 +82,8 @@ function SideBarAndContent() {
     <div className="sidebar-container">
       <aside
         className={`sidebar-items${showSideBar ? '' : ' sidebar-collapsed'}`}
-        onMouseEnter={onHoveringOnClosedSidebar}
-        onMouseLeave={onLeavingOpenSidebar}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
         <ColorModeProvider mode="dark">
           <div className="sidebar-items-right-aligned flex-col">
