@@ -1,6 +1,7 @@
 /* @import "../node_modules/@syncfusion/ej2-react-navigations/styles/material.css"; */
 @import url('@syncfusion/ej2-base/styles/material.css');
 @import url('@syncfusion/ej2-react-navigations/styles/material.css');
+/* @import url('@syncfusion/ej2-react-grids/styles/material.css'); */
 
 /* to avoid text overlapping on menu on top of Gid columns */
 .e-contextmenu-wrapper ul,

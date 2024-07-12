@@ -18,14 +18,14 @@ import {
   Resize,
   Toolbar,
   Freeze,
-  Edit,
 } from '@syncfusion/ej2-react-grids';
 import * as React from 'react';
 import { Database } from '@/lib/schema_e2emod_dev';
-import { supabase_e2emod } from '@/lib/initSupabase';
 import { ItemModel } from '@syncfusion/ej2-react-navigations';
 import { useTableContent, useTableHeaders } from '@/lib/changeDbCalls';
 import { useRouter } from 'next/navigation';
+import '@syncfusion/ej2-icons/styles/material.css';
+import '@syncfusion/ej2-grids/styles/material.css';
 
 type Changes = Database['e2emod_dev']['Tables']['change']['Row'];
 
@@ -71,6 +71,7 @@ function Changes() {
     // },
   ];
   const toolbarClick = (args: { item: { id: string | string[] } }) => {
+    console.log('🚀 ~ toolbarClick ~ args.item.id:', args.item.id);
     if (grid && args.item.id === 'toolbar+') {
       setFrozenColumns(frozenColumns + 1);
     } else if (grid && args.item.id === 'toolbar-') {

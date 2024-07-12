@@ -14,9 +14,12 @@ import {
 } from '@syncfusion/ej2-react-gantt';
 import { projectResources, dataRaw } from './MasterScheduleData';
 import { ColumnDirective, ColumnsDirective } from '@syncfusion/ej2-react-grids';
+import '@syncfusion/ej2-navigations/styles/material.css';
+import '@syncfusion/ej2-react-gantt/styles/material.css';
 
 export function MasterSchedule({ selection }: { selection: string }) {
   const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const CHALENGED = 'Challenged';
   let ganttInstance: GanttComponent | null = null;
 
   const taskFields: any = {
@@ -78,8 +81,6 @@ export function MasterSchedule({ selection }: { selection: string }) {
     }
   }
 
-  const CHALENGED = 'Challenged';
-
   const queryTaskbarInfo = (args: {
     data: { TaskName: any };
     rowElement: any;
@@ -98,25 +99,29 @@ export function MasterSchedule({ selection }: { selection: string }) {
     'ZoomIn',
     'ZoomOut',
     'ZoomToFit',
-    // 'ExpandAll',
-    // 'CollapseAll',
     'PdfExport',
+    {
+      text: CHALENGED,
+      tooltipText: 'Gannt Challenged by Customer',
+      // id: 'CHALENGED',
+      prefixIcon: 'e-chart-2d-clustered-bar',
+    },
   ];
+
+  function toolbarClick(args: { item: { text: string; id: string } }) {
+    console.log('🚀 ~ toolbarClick ~ args.item:', args.item);
+    if (args.item.text === 'PDF export') {
+      if (ganttInstance) ganttInstance.pdfExport();
+    }
+
+    if (args.item.text === CHALENGED) {
+      console.log('🚀 ~ toolbarClick ~ args:', args, args);
+    }
+  }
 
   function dataBound() {
     console.log('🚀 ~ dataBound ~ dataBound:', dataBound);
     if (ganttInstance) (ganttInstance as GanttComponent).fitToProject();
-  }
-
-  function toolbarClick(args: { item: { text: string } }) {
-    console.log('🚀 ~ toolbarClick ~ args:', args, args.item.text);
-    if (args.item.text === 'PDF export') {
-      if (ganttInstance) {
-        ganttInstance.pdfExport();
-      } else {
-        console.error('ganttInstance is null');
-      }
-    }
   }
   // To prevent Gantt popup error due to unknow gant height
   const handleResize = () => {
@@ -137,7 +142,7 @@ export function MasterSchedule({ selection }: { selection: string }) {
       setIsDataLoaded(false);
       setTimeout(() => {
         setIsDataLoaded(true);
-      }, 200);
+      }, 300);
     }
   };
   useEffect(() => {
