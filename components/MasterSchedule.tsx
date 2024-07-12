@@ -19,7 +19,12 @@ import '@syncfusion/ej2-react-gantt/styles/material.css';
 
 export function MasterSchedule({ selection }: { selection: string }) {
   const [isDataLoaded, setIsDataLoaded] = useState(false);
-  const CHALENGED = 'Challenged';
+  const CHALLENGED = 'Challenged';
+  const [displayChallenged, setDisplayChallenged] = useState(false);
+  const filteredData = displayChallenged
+    ? dataRaw
+    : dataRaw.filter(task => !task.TaskName.includes(CHALLENGED));
+
   let ganttInstance: GanttComponent | null = null;
 
   const taskFields: any = {
@@ -77,23 +82,11 @@ export function MasterSchedule({ selection }: { selection: string }) {
       cells[1].style.fontSize = 'Medium';
     }
     if (args.data.taskData.TaskName?.includes('Challenged')) {
-      args.row.classList.add('gantt-challenged-task-row');
+      args.row.classList.add('gantt-challenged-task-color');
     }
   }
 
-  const queryTaskbarInfo = (args: {
-    data: { TaskName: any };
-    rowElement: any;
-  }) => {
-    let taskName = args.data.TaskName;
-    if (taskName.includes(CHALENGED)) {
-      // taskName = '__ ' + CHALENGED + '__';
-      // args.data.TaskName = '__' + CHALENGED + '__';
-      const rowElement = args.rowElement;
-      const chartRowElement = rowElement.closest('.e-chart-row');
-      chartRowElement.style.backgroundColor = 'lightgoldenrodyellow'; // Change 'red' to your desired color
-    }
-  };
+  const toolbar_challenged_button = CHALLENGED + '_toobar_button';
 
   const toolbarOptions = [
     'ZoomIn',
@@ -101,21 +94,41 @@ export function MasterSchedule({ selection }: { selection: string }) {
     'ZoomToFit',
     'PdfExport',
     {
-      text: CHALENGED,
+      text: CHALLENGED,
       tooltipText: 'Gannt Challenged by Customer',
-      // id: 'CHALENGED',
+      id: toolbar_challenged_button,
       prefixIcon: 'e-chart-2d-clustered-bar',
     },
   ];
 
+  const queryTaskbarInfo = (args: {
+    data: { TaskName: any };
+    rowElement: any;
+  }) => {
+    let taskName = args.data.TaskName;
+    if (taskName.includes(CHALLENGED)) {
+      const rowElement = args.rowElement;
+      const chartRowElement = rowElement.closest('.e-chart-row');
+      chartRowElement.classList.add('gantt-challenged-task-color');
+    }
+  };
+
+  useEffect(() => {
+    const challengedButton = document.getElementById(toolbar_challenged_button);
+    if (challengedButton) {
+      if (displayChallenged) {
+        challengedButton.classList.add('gantt-challenged-task-color');
+      } else {
+        challengedButton.classList.remove('gantt-challenged-task-color');
+      }
+    }
+  });
+
   function toolbarClick(args: { item: { text: string; id: string } }) {
-    console.log('🚀 ~ toolbarClick ~ args.item:', args.item);
     if (args.item.text === 'PDF export') {
       if (ganttInstance) ganttInstance.pdfExport();
-    }
-
-    if (args.item.text === CHALENGED) {
-      console.log('🚀 ~ toolbarClick ~ args:', args, args);
+    } else if (args.item.text === CHALLENGED) {
+      setDisplayChallenged(!displayChallenged);
     }
   }
 
@@ -160,7 +173,7 @@ export function MasterSchedule({ selection }: { selection: string }) {
       <GanttComponent
         ref={gantt => (ganttInstance = gantt)}
         dataBound={dataBound}
-        dataSource={dataRaw}
+        dataSource={filteredData}
         toolbar={toolbarOptions}
         rowDataBound={rowDataBound}
         queryCellInfo={customizeCell}
@@ -183,7 +196,7 @@ export function MasterSchedule({ selection }: { selection: string }) {
           <ColumnDirective field="TaskID" headerText="Id" width="80" />
           <ColumnDirective
             field="TaskName"
-            headerText="Task Name"
+            headerText="Activity Name"
             width="250"
           />
           <ColumnDirective field="StartDate" headerText="Start Date" />

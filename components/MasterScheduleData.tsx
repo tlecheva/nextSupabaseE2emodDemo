@@ -72,15 +72,34 @@ export const data: object[] = [
   },
 ];
 
+// Define the interface for task objects
+interface Task {
+  TaskID: string;
+  TaskName: string;
+  TaskType: string;
+  Duration?: number;
+  StartDate: Date;
+  EndDate?: Date;
+  Progress?: string;
+  subtasks?: Task[];
+  Predecessor?: string;
+  resources?: any[];
+  BaselineStartDate?: Date;
+  BaselineEndDate?: Date;
+  Color?: string;
+  _5?: number;
+  _6?: number;
+  _11?: boolean;
+}
 const onWeekinMsec = 7 * 24 * 60 * 60 * 1000;
-export const dataRaw: object[] = [
+
+export const dataRaw: Task[] = [
   {
     TaskID: 'a10',
     TaskName: 'MOD Opening',
     TaskType: 'Milestone',
     StartDate: new Date(1743661800000),
     Duration: 0,
-
     _5: 0,
     _6: 0,
     Color: '#008000',
