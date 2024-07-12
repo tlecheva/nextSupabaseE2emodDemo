@@ -41,7 +41,7 @@ function SideBarAndContent() {
     hoverTimeoutRef.current = setTimeout(() => {
       setIsHovering(true);
       onHoveringOnClosedSidebar();
-    }, 400);
+    }, 250);
   };
 
   const handleMouseLeave = () => {

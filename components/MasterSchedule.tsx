@@ -8,13 +8,16 @@ import {
   Selection,
   Toolbar,
   Resize,
+  PdfExport,
+  ToolbarItem,
+  Gantt,
 } from '@syncfusion/ej2-react-gantt';
 import { projectResources, dataRaw } from './MasterScheduleData';
 import { ColumnDirective, ColumnsDirective } from '@syncfusion/ej2-react-grids';
 
 export function MasterSchedule({ selection }: { selection: string }) {
   const [isDataLoaded, setIsDataLoaded] = useState(false);
-  const ganttRef = useRef(null);
+  let ganttInstance: GanttComponent | null = null;
 
   const taskFields: any = {
     id: 'TaskID',
@@ -77,7 +80,10 @@ export function MasterSchedule({ selection }: { selection: string }) {
 
   const CHALENGED = 'Challenged';
 
-  const queryTaskbarInfo = args => {
+  const queryTaskbarInfo = (args: {
+    data: { TaskName: any };
+    rowElement: any;
+  }) => {
     let taskName = args.data.TaskName;
     if (taskName.includes(CHALENGED)) {
       // taskName = '__ ' + CHALENGED + '__';
@@ -92,33 +98,49 @@ export function MasterSchedule({ selection }: { selection: string }) {
     'ZoomIn',
     'ZoomOut',
     'ZoomToFit',
-    'ExpandAll',
-    'CollapseAll',
+    // 'ExpandAll',
+    // 'CollapseAll',
+    'PdfExport',
   ];
 
-  function dataBound(args: any) {
-    if (ganttRef.current) (ganttRef.current as GanttComponent).fitToProject();
+  function dataBound() {
+    console.log('🚀 ~ dataBound ~ dataBound:', dataBound);
+    if (ganttInstance) (ganttInstance as GanttComponent).fitToProject();
   }
 
-  // To prevent Gantt popup error due to unknow gant height
-  useEffect(() => {
-    const handleResize = () => {
-      if (ganttRef.current) {
-        console.log(
-          '🚀 ~ handleResize ~ anttRef.current.height:',
-          ganttRef.current?.height,
-        );
-        if (!ganttRef.current.height)
-          ganttRef.current.height = `${window.innerHeight + 200}px `;
-        setIsDataLoaded(true);
+  function toolbarClick(args: { item: { text: string } }) {
+    console.log('🚀 ~ toolbarClick ~ args:', args, args.item.text);
+    if (args.item.text === 'PDF export') {
+      if (ganttInstance) {
+        ganttInstance.pdfExport();
       } else {
-        setIsDataLoaded(false);
-        setTimeout(() => {
-          setIsDataLoaded(true);
-        }, 200);
+        console.error('ganttInstance is null');
       }
-    };
-
+    }
+  }
+  // To prevent Gantt popup error due to unknow gant height
+  const handleResize = () => {
+    if (ganttInstance) {
+      console.log(
+        '🚀 ~ handleResize ~ anttRef.current.height:',
+        ganttInstance?.height,
+      );
+      if (!ganttInstance.height) {
+        ganttInstance.height = `${window.innerHeight + 200}px `;
+        console.log(
+          '🚀 ~ handleResize ~ `${window.innerHeight + 200}px `:',
+          `${window.innerHeight + 200}px `,
+        );
+      }
+      setIsDataLoaded(true);
+    } else {
+      setIsDataLoaded(false);
+      setTimeout(() => {
+        setIsDataLoaded(true);
+      }, 200);
+    }
+  };
+  useEffect(() => {
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => {
@@ -131,7 +153,7 @@ export function MasterSchedule({ selection }: { selection: string }) {
     <div className="ml-5">
       <h2>{selection ? selection : 'Export CM track'}</h2>
       <GanttComponent
-        ref={ganttRef}
+        ref={gantt => (ganttInstance = gantt)}
         dataBound={dataBound}
         dataSource={dataRaw}
         toolbar={toolbarOptions}
@@ -147,11 +169,13 @@ export function MasterSchedule({ selection }: { selection: string }) {
         resources={projectResources}
         allowResizing={true}
         renderBaseline={true}
-        baselineColor="yellow"
+        baselineColor="green"
         queryTaskbarInfo={queryTaskbarInfo}
+        allowPdfExport={true}
+        toolbarClick={toolbarClick}
       >
         <ColumnsDirective>
-          <ColumnDirective field="TaskID" headerText="Id" />
+          <ColumnDirective field="TaskID" headerText="Id" width="80" />
           <ColumnDirective
             field="TaskName"
             headerText="Task Name"
@@ -162,7 +186,9 @@ export function MasterSchedule({ selection }: { selection: string }) {
           <ColumnDirective field="Duration" headerText="Duration" />
           <ColumnDirective field="Progress" headerText="Progress" />
         </ColumnsDirective>
-        <Inject services={[Edit, Filter, Selection, Sort, Toolbar, Resize]} />
+        <Inject
+          services={[Edit, Filter, Selection, Sort, Toolbar, Resize, PdfExport]}
+        />
       </GanttComponent>
     </div>
   );
