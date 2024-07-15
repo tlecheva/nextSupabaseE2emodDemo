@@ -16,6 +16,7 @@ export const AttributesForCategory = ({ category = 'General attributes' }) => {
           <EditableAtributeChange
             key={header.attribute} // Ensure each child has a unique key
             label={header.label ?? ''}
+            inputType={header.input_type ?? ''}
             attribute={header.attribute ?? ''}
             width="100%"
           />

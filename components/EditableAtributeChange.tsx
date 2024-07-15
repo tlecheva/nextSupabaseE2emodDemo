@@ -1,5 +1,11 @@
 import * as React from 'react';
-import { TextAreaComponent } from '@syncfusion/ej2-react-inputs';
+import {
+  FocusOutEventArgs,
+  TextArea,
+  TextAreaComponent,
+} from '@syncfusion/ej2-react-inputs';
+import { EmitType } from '@syncfusion/ej2-base';
+
 import { useRouter } from 'next/router';
 import { updateChange } from '@/lib/updateChange';
 
@@ -8,7 +14,7 @@ interface ExtendedTextAreaComponentProps {
   id?: string;
   rows?: number;
   key: string;
-  blur?: (e: React.FocusEvent<HTMLTextAreaElement>) => void;
+  blur?: EmitType<FocusOutEventArgs>;
   placeholder: string;
   enabled: boolean;
   floatLabelType: string;
@@ -22,18 +28,37 @@ interface ExtendedTextAreaComponentProps {
 const ExtendedTextAreaComponent: React.FC<
   ExtendedTextAreaComponentProps
 > = props => {
-  return <TextAreaComponent {...props} />;
+  let textareaObj: TextArea | null = null;
+
+  const adjustHeightToText = () => {
+    if (textareaObj && textareaObj.element) {
+      textareaObj.element.style.height = 'auto';
+      textareaObj.element.style.height =
+        textareaObj.element.scrollHeight + 'px';
+    }
+  };
+  return (
+    <TextAreaComponent
+      {...props}
+      created={adjustHeightToText}
+      ref={scope => {
+        textareaObj = scope;
+      }}
+    />
+  );
 };
 
 export const EditableAtributeChange = ({
   label,
   attribute,
+  inputType,
   width,
   blue = false,
   enabled = true,
 }: {
   label: string;
   attribute: string;
+  inputType: string;
   width: string;
   blue?: boolean;
   enabled?: boolean;
@@ -57,13 +82,9 @@ export const EditableAtributeChange = ({
       cssClass={blue ? 'textAeraComponent-blue' : ''}
       resizeMode="Vertical"
       rows={1}
-      blur={e =>
-        updateChange(
-          String(change_id),
-          attribute,
-          (e.target as HTMLTextAreaElement).value,
-        )
-      }
+      blur={e => {
+        updateChange(String(change_id), attribute, e.value);
+      }}
     />
   );
 };

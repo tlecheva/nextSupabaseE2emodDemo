@@ -69,7 +69,8 @@ export function useEditChangeHeader(category: string = 'General attributes') {
       const { data, error } = await supabase_e2emod
         .from('dict_attribute')
         .select(
-          'label, attribute, format, length, display_tooltip, ' + screen_order,
+          'label, attribute, format, length, input_type, display_tooltip, ' +
+            screen_order,
         )
         .eq('category', category)
         .neq(screen_order, -1)
