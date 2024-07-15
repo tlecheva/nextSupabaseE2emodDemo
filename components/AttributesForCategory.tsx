@@ -12,6 +12,13 @@ export const AttributesForCategory = ({ category = 'General attributes' }) => {
   return (
     <section>
       <div className="flex flex-wrap flex-column ml-5 gap-3 pb-10">
+        <EditableAtributeChange
+          key="test"
+          label="STep/IStep"
+          inputType=""
+          attribute=""
+          width="100%"
+        />
         {headers.map(header => (
           <EditableAtributeChange
             key={header.attribute} // Ensure each child has a unique key
